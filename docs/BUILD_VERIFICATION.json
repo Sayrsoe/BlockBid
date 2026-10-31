@@ -1,0 +1,24 @@
+{
+  "source_archive_sha256": "a168fde82e1e4fe12a51c05be6a43bc88dca734024cf3509aeacbc7578580fcf",
+  "protected_solidity_files_unchanged": 10,
+  "frontend_roots": 1,
+  "added_routes": [
+    "/statistics",
+    "/admin"
+  ],
+  "theme_modes": [
+    "system",
+    "galaxy",
+    "light",
+    "warm",
+    "slate",
+    "custom"
+  ],
+  "checks": [
+    "tsc -b PASS",
+    "npm run check:abi PASS",
+    "protected source SHA comparison PASS"
+  ],
+  "build": "Blocked in this Linux runner by unavailable Windows-archive-dependent Linux native lightningcss package",
+  "github": "Untouched"
+}
