@@ -1,98 +1,151 @@
-# BlockBid — VS Code + Hardhat quick-start (Windows)
+# BlockBid — VS Code + Hardhat Quick Cheat Sheet (Windows)
 
-Bookmark this GitHub page. Commands require the **complete clean BlockBid source ZIP**, not the README-only GitHub checkout.
+> **Bookmark this GitHub file.** These steps apply to the full BlockBid project from the clean ZIP (or a future reviewed source import), **not** to a README-only repository checkout.
 
-## 1. One-time installation
+## 0 — Install once
 
-- Install [Node.js 24 LTS](https://nodejs.org/en/download), [VS Code](https://code.visualstudio.com/download), [Git](https://git-scm.com/downloads/win).
-- VS Code extensions: Nomic Foundation Solidity, Prettier, ESLint, Tailwind CSS IntelliSense.
-- Extract the approved clean ZIP. In VS Code choose File → Open Folder → **BlockBid/** (it must contain `hardhat.config.ts` and `frontend/`).
-- Open the terminal. Check `node -v`, `npm -v`, `git --version`.
-- React Router 8 requires Node **22.22.0+**; Node 24 LTS is recommended. Do **not** run `npx hardhat --init`.
-
-## 2. Install packages, once
+- Download [Node.js 24 LTS](https://nodejs.org/en/download) (npm included), [Git](https://git-scm.com/downloads/win), and [VS Code](https://code.visualstudio.com/download).
+- Install [Nomic Foundation Solidity](https://marketplace.visualstudio.com/items?itemName=NomicFoundation.hardhat-solidity), [Prettier](https://marketplace.visualstudio.com/items?itemName=esbenp.prettier-vscode), [ESLint](https://marketplace.visualstudio.com/items?itemName=dbaeumer.vscode-eslint), [Tailwind CSS IntelliSense](https://marketplace.visualstudio.com/items?itemName=bradlc.vscode-tailwindcss).
+- Use Node 24 LTS for compatibility. The current frontend's React Router 8 requires Node >=22.22.0; the container's 22.16.0 is too old. Verify in a **new** terminal:
 
 ```powershell
-# Project root
+node -v
+npm -v
+git --version
+```
+
+## 1 — Open the correct folder
+
+1. Extract the clean BlockBid source ZIP to a new directory. Keep the original ZIP as backup.
+2. VS Code → **File → Open Folder** → choose `BlockBid/` containing `hardhat.config.ts` and `frontend/`.
+3. Open **Terminal → New Terminal**. Open three terminals using the **+** control.
+
+Do **not** run `npx hardhat --init` in this existing project. Run Hardhat commands from the root, not from `frontend/`.
+
+## 2 — First-time dependency install (only once per clean checkout)
+
+```powershell
+# Terminal A — project root
 npm ci
-# Frontend folder
+
+# Terminal B — frontend folder
 cd frontend
 npm ci
 ```
 
-## 3. Start BlockBid in three terminals
+If `npm ci` reports Windows `EPERM`, close the running Vite/Node terminals, retry in a new VS Code terminal, then investigate which process holds `node_modules` open. Do not disable your antivirus or remove lockfiles as a first step.
 
-**Terminal 1** (root; leave running):
+## 3 — Start the local demo (every new session)
+
+**Terminal 1 — Hardhat local node (keep it open):**
+
 ```powershell
 npx hardhat node
 ```
-**Terminal 2** (root, after node is running):
+
+Your local RPC is `http://127.0.0.1:8545`, chain ID `31337`. It prints disposable **development accounts**. Never use the printed example development keys with real funds.
+
+**Terminal 2 — deploy the Marketplace after the node is running:**
+
 ```powershell
 npx hardhat ignition deploy ignition/modules/BlockBidMarketplace.ts --network localhost
 ```
-Copy the `BlockBidMarketplaceModule#BlockBidMarketplace` contract address from the deploy output.
 
-**Terminal 3** (frontend folder):
+Copy the address shown beside `BlockBidMarketplaceModule#BlockBidMarketplace` in **Deployed Addresses**.
+
+**Configure the frontend once (or after changing/restarting the chain):**
+
 ```powershell
 cd frontend
 Copy-Item .env.example .env
 notepad .env
 ```
-Replace `VITE_BLOCKBID_ADDRESS` with the actual deployed `0x...` address. Use chain `31337` and RPC `http://127.0.0.1:8545`. Save and run:
+
+Edit this line in `frontend/.env`:
+
+```dotenv
+VITE_BLOCKBID_ADDRESS=0xPASTE_THE_ACTUAL_DEPLOYED_ADDRESS_HERE
+VITE_TARGET_CHAIN_ID=31337
+VITE_TARGET_RPC_URL=http://127.0.0.1:8545
+```
+
+Replace only the address placeholder with the *real* 42-character `0x...` contract address. `frontend/.env.example` already has the remaining network defaults. Keep `frontend/.env` local; **never push it to GitHub**.
+
+**Terminal 3 — React frontend:**
+
 ```powershell
+cd frontend
 npm run dev
 ```
-Open the Vite local URL, commonly http://localhost:5173. Restart Vite when `.env` changes.
 
-Add a disposable **Hardhat Local** network in MetaMask: RPC `http://127.0.0.1:8545`, chain ID `31337`, ETH. Never fund demo accounts with real ETH. If you restart the chain, redeploy and recopy the contract address. The clean ZIP excludes stale local Ignition deployment journals.
+Open the local Vite URL printed in the terminal (often `http://localhost:5173`). After changing `.env`, restart Vite with `Ctrl+C` and `npm run dev`.
 
-## 4. Build and check
+**MetaMask test network:** manually add network name `Hardhat Local`, RPC `http://127.0.0.1:8545`, chain ID `31337`, currency `ETH`. Use a disposable test wallet and only local ETH. Wallet and node should be on the same network.
+
+**Important:** A local Hardhat node resets when stopped. An old deployment address or persisted Ignition journal may no longer be valid. This clean ZIP excludes old local deployment journals. If you restart a clean chain, redeploy and recopy the address as needed. For persistent/testnet deployments, follow a separately reviewed plan.
+
+## 4 — Quick checks
 
 ```powershell
 # Project root
 npx hardhat compile
 npx hardhat test
-# Then in frontend
+
+# Frontend folder
 cd frontend
 npm run check:abi
 npm run build
+npm run dev
 ```
 
-The ABI check covers 16 interface functions. Previous C01 tests had 23 passing and 1 failing test; re-run them locally before claiming a clean build.
+`npm run check:abi` verifies 16 critical ABI mutabilities. The prior contract baseline had **23 passing, 1 failing** test; treat any current failures as issues to investigate, not automatic success.
 
-## 5. VS Code shortcuts
+### VS Code one-click tasks
 
-Press `Ctrl+Shift+P` → **Tasks: Run Task** → select `BlockBid: Hardhat Node`, then `BlockBid: Deploy Local`, and `BlockBid: Frontend Dev`. Use the tasks included in the clean ZIP; they do not auto-run or change GitHub.
+With the `BlockBid/` root open, press `Ctrl+Shift+P`, choose **Tasks: Run Task**, and select `BlockBid: Hardhat Node`, `BlockBid: Deploy Local`, `BlockBid: Frontend Dev`, etc. Start the node first. These tasks do **not** automatically deploy or change GitHub when opening the project.
 
-## 6. GitHub commands
+## 5 — Simple GitHub workflow
 
-**Current status:** `Sayrsoe/BlockBid` was README-only. Do not expect `git clone` to include the app until an independently reviewed source-import PR is merged.
+**Current important limitation:** `https://github.com/Sayrsoe/BlockBid` initially contained only `README.md`. `git clone` will not download the application until the full source has been pushed and approved. For now, run the extracted clean ZIP; the setup documentation on GitHub is a reference.
 
-After the source is published:
+When the approved full source is available on a GitHub branch, the typical sequence is:
+
 ```powershell
 git clone https://github.com/Sayrsoe/BlockBid.git
 cd BlockBid
 code .
 git status
+```
+
+To work on an **approved feature branch**:
+
+```powershell
 git switch -c feature/my-change
-# edit files in VS Code, then
+# Edit and test your files in VS Code
+git status
 git add .
 git commit -m "Describe the change"
 git push -u origin feature/my-change
 ```
 
-Inspect `git status` before staging. Keep `.env`, private keys, `node_modules`, build artifacts and Ignition deployment journals out of Git. The first source import should copy only files from the clean ZIP onto a separately reviewed feature branch.
+Before `git add .`, inspect `git status`, confirm private `.env`, secret files, `node_modules`, generated `artifacts`, and local `ignition/deployments` are ignored. Do not push or merge on `main` without your own review/approval. For initial source import, work from a fresh clone and copy the **clean** ZIP files into a new feature branch, not the original 164-MB archive with private/generated state.
 
-## 7. Troubleshooting
+## 6 — If something is not working
 
-| Problem | Fix |
+| Problem | What to check |
 | --- | --- |
-| `node` / `npm` missing | Install Node 24 LTS; reopen VS Code |
-| `npm ci` EPERM | Close Node/Vite terminals; inspect locked files; retry |
-| Deploy connection refused | Start Terminal 1 on port 8545 |
-| Wrong MetaMask network | Chain 31337; local RPC |
-| Old address / empty auctions | Redeploy on current chain and update `.env` |
-| Images missing on other devices | Browser-local demo metadata; cross-device storage not added |
-| Cloned repo only has README | Source import isn't complete; use the clean ZIP |
+| `node` or `npm` not found | Reinstall Node 24 LTS, reopen VS Code, verify `node -v`. |
+| `npm ci` EPERM | Close running Node/Vite tasks, inspect file locks; retry. |
+| Hardhat deploy fails to connect | Is Terminal 1 still running? Does `http://127.0.0.1:8545` respond? |
+| Wrong network in MetaMask | Chain ID 31337, HTTP RPC 127.0.0.1:8545. |
+| Contract not found or empty auctions | Deploy on the **current** local node, copy its new contract address to `.env`, restart Vite. |
+| Frontend build fails | Check Node version >=22.22 and fresh `npm ci`; run `npm run check:abi` and `npm run build`. |
+| Listing image missing on another device | Demo metadata/images may be browser-local; IPFS backend not added yet. |
+| `git clone` only contains a README | Full source has not yet been approved/imported to GitHub. Use your clean ZIP until then. |
 
-Documentation: [Hardhat 3](https://hardhat.org/docs/getting-started), [Ignition localhost](https://hardhat.org/ignition/docs/getting-started), [VS Code tasks](https://code.visualstudio.com/docs/debugtest/tasks).
+## Links
+
+- [Hardhat 3 docs](https://hardhat.org/docs/getting-started)
+- [Hardhat Ignition localhost deployment](https://hardhat.org/ignition/docs/getting-started)
+- [VS Code tasks](https://code.visualstudio.com/docs/debugtest/tasks)
+- [BlockBid repository](https://github.com/Sayrsoe/BlockBid)

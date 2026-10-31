@@ -12,7 +12,8 @@
       "problemMatcher": [],
       "presentation": {
         "reveal": "always",
-        "panel": "new"
+        "panel": "new",
+        "focus": true
       }
     },
     {
@@ -57,7 +58,8 @@
       "problemMatcher": [],
       "presentation": {
         "reveal": "always",
-        "panel": "new"
+        "panel": "new",
+        "focus": true
       }
     },
     {

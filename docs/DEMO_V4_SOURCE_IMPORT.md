@@ -1,6 +1,6 @@
 # BlockBid v4 — Optional Demo and Tutorial (source handoff)
 
-**Source status:** BlockBid v4 was implemented in a clean local source ZIP, but the full app source has **not** been imported into GitHub yet. This page documents the next safe source-import step. The setup PR is documentation-only.
+**Source status:** This feature branch imports the v4 source ZIP. Main is unchanged pending review. The original setup PR remains documentation-only. The procedure below is retained for reference; current verification is recorded in [SOURCE_SYNC_2026-11-01.md](SOURCE_SYNC_2026-11-01.md).
 
 ## Implemented in the v4 source ZIP
 
@@ -28,5 +28,6 @@ git switch -c feature/import-blockbid-demo-v4
 ## Validation
 
 - ZIP integrity and local relative-import existence checked.
-- Full npm build could not run in the offline preparation environment (Node 22.16, incomplete npm cache). Windows verification remains mandatory.
-- Existing GitHub `main` has only README; this document is not a source import.
+- The original offline preparation environment (Node 22.16, incomplete npm cache) could not build. The later Windows isolated frontend typecheck/build passed; see the dated sync record for limitations.
+- The source-import feature branch now contains the application; main remains unchanged pending review.
+

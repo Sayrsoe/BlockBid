@@ -1,0 +1,29 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta
+      name="description"
+      content="BlockBid demo — explore decentralized ETH auctions with a customizable appearance."
+    />
+    <script>
+      // Apply saved appearance before React hydrates to avoid a bright/dark flash.
+      try {
+        const config = JSON.parse(localStorage.getItem("blockbid:appearance:v1") || "null");
+        const saved = ["system", "galaxy", "light", "warm", "slate", "custom"].includes(config?.theme) ? config.theme : "galaxy";
+        const resolved = saved === "system" ? (matchMedia("(prefers-color-scheme: dark)").matches ? "galaxy" : "light") : saved;
+        document.documentElement.dataset.theme = resolved;
+        if (["violet", "blue", "jade", "rose", "amber"].includes(config?.accent)) document.documentElement.dataset.accent = config.accent;
+        document.documentElement.style.colorScheme = ["galaxy", "slate"].includes(resolved) ? "dark" : "light";
+      } catch { document.documentElement.dataset.theme = "galaxy"; }
+    </script>
+    <meta name="theme-color" content="#0b1020" />
+    <link rel="icon" type="image/svg+xml" href="/blockbid-mark.svg" />
+    <title>BlockBid</title>
+  </head>
+  <body>
+    <div id="root"></div>
+    <script type="module" src="/src/main.tsx"></script>
+  </body>
+</html>
