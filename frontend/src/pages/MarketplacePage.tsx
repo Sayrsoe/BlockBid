@@ -15,6 +15,7 @@ import {
   type AuctionMetadata,
 } from "../types/blockBid";
 import { loadAuctionMetadata, metadataTitle } from "../utils/metadata";
+import { mapWithConcurrency } from "../utils/mapWithConcurrency";
 
 const statusOptions = [
   { value: "all", label: "All statuses" },
@@ -45,8 +46,8 @@ export function MarketplacePage() {
       const sorted = values.sort((left, right) => Number(right.auctionId - left.auctionId));
       setAuctions(sorted);
 
-      const entries = await Promise.all(
-        sorted.map(async (auction) => [auction.auctionId.toString(), await loadAuctionMetadata(auction.metadataURI)] as const),
+      const entries = await mapWithConcurrency(sorted, 6,
+        async (auction) => [auction.auctionId.toString(), await loadAuctionMetadata(auction.metadataURI)] as const,
       );
       setMetadata(Object.fromEntries(entries));
     } catch (loadError) {

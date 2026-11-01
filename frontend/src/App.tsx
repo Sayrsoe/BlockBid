@@ -1,18 +1,21 @@
-import { DemoShowcasePage } from "./pages/DemoShowcasePage";
-import { DemoAuctionDetailsPage } from "./pages/DemoAuctionDetailsPage";
+import { Suspense, lazy } from "react";
+import { LoadingSpinner } from "./components/LoadingSpinner";
+const DemoShowcasePage = lazy(() => import("./pages/DemoShowcasePage").then(m => ({ default: m.DemoShowcasePage })));
+const DemoAuctionDetailsPage = lazy(() => import("./pages/DemoAuctionDetailsPage").then(m => ({ default: m.DemoAuctionDetailsPage })));
 import { Route, Routes } from "react-router";
-import { AdminPage } from "./pages/AdminPage";
-import { StatisticsPage } from "./pages/StatisticsPage";
+const AdminPage = lazy(() => import("./pages/AdminPage").then(m => ({ default: m.AdminPage })));
+const StatisticsPage = lazy(() => import("./pages/StatisticsPage").then(m => ({ default: m.StatisticsPage })));
 import { AppLayout } from "./layouts/AppLayout";
-import { AuctionDetailsPage } from "./pages/AuctionDetailsPage";
-import { CreateAuctionPage } from "./pages/CreateAuctionPage";
-import { DashboardPage } from "./pages/DashboardPage";
-import { MarketplacePage } from "./pages/MarketplacePage";
-import { NotFoundPage } from "./pages/NotFoundPage";
+const AuctionDetailsPage = lazy(() => import("./pages/AuctionDetailsPage").then(m => ({ default: m.AuctionDetailsPage })));
+const CreateAuctionPage = lazy(() => import("./pages/CreateAuctionPage").then(m => ({ default: m.CreateAuctionPage })));
+const DashboardPage = lazy(() => import("./pages/DashboardPage").then(m => ({ default: m.DashboardPage })));
+const MarketplacePage = lazy(() => import("./pages/MarketplacePage").then(m => ({ default: m.MarketplacePage })));
+const NotFoundPage = lazy(() => import("./pages/NotFoundPage").then(m => ({ default: m.NotFoundPage })));
 
 export default function App() {
   return (
-    <Routes>
+    <Suspense fallback={<div className="flex min-h-60 items-center justify-center" role="status" aria-live="polite"><LoadingSpinner label="Loading page" /></div>}>
+      <Routes>
       <Route element={<AppLayout />}>
         <Route index element={<MarketplacePage />} />
         <Route path="demo" element={<DemoShowcasePage />} />
@@ -24,6 +27,7 @@ export default function App() {
         <Route path="admin" element={<AdminPage />} />
         <Route path="*" element={<NotFoundPage />} />
       </Route>
-    </Routes>
+      </Routes>
+    </Suspense>
   );
 }

@@ -24,6 +24,7 @@ import {
   type TransactionResult,
 } from "../types/blockBid";
 import { getAuctionDisplayStatus } from "../utils/format";
+import { mapWithConcurrency } from "../utils/mapWithConcurrency";
 
 export type TransactionLifecycle = TransactionCallbacks;
 
@@ -135,7 +136,7 @@ export async function getAuction(auctionId: bigint | number): Promise<Auction> {
 
 export async function getAuctionsByIds(auctionIds: readonly bigint[]): Promise<Auction[]> {
   const uniqueIds = [...new Set(auctionIds.map((id) => id.toString()))].map((id) => BigInt(id));
-  return Promise.all(uniqueIds.map((auctionId) => getAuction(auctionId)));
+  return mapWithConcurrency(uniqueIds, 8, (auctionId) => getAuction(auctionId));
 }
 
 export async function getAllAuctions(): Promise<Auction[]> {
@@ -223,8 +224,8 @@ export async function getPlatformOverview(): Promise<PlatformOverview> {
     getPlatformFeeBps(),
     isContractPaused(),
   ]);
-  const histories = await Promise.all(
-    auctions.map((auction) => getBidHistory(auction.auctionId)),
+  const histories = await mapWithConcurrency(auctions, 6,
+    (auction) => getBidHistory(auction.auctionId),
   );
   const users = new Set<string>();
   let activeAuctions = 0;
