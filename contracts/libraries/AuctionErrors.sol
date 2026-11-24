@@ -1,0 +1,57 @@
+// SPDX-License-Identifier: MIT
+pragma solidity ^0.8.28;
+
+library AuctionErrors {
+    error AuctionNotFound(uint256 auctionId);
+    error AuctionNotActive(uint256 auctionId);
+    error AuctionAlreadyEnded(uint256 auctionId);
+    error AuctionAlreadyCancelled(uint256 auctionId);
+    error AuctionNotEnded(uint256 auctionId);
+    error AuctionAlreadyFinalized(uint256 auctionId);
+    error CannotCancelAfterBid(uint256 auctionId);
+    error InvalidAuctionDuration(uint256 provided, uint256 min, uint256 max);
+    error BidTooLow(uint256 sent, uint256 required);
+    error BidBelowStartingPrice(uint256 sent, uint256 startingPrice);
+    error SellerCannotBid(uint256 auctionId, address seller);
+    error AlreadyHighestBidder(uint256 auctionId, address bidder);
+    error ZeroValueBid();
+    error NoBidsPlaced(uint256 auctionId);
+    error EscrowNotFound(uint256 auctionId);
+    error EscrowAlreadySettled(uint256 auctionId);
+    error EscrowStillLocked(uint256 auctionId, uint256 unlocksAt);
+    error EscrowAmountMismatch(uint256 expected, uint256 provided);
+    error EscrowDeadlinePassed(uint256 auctionId, uint256 deadline);
+    error DisputeNotFound(uint256 disputeId);
+    error DisputeAlreadyOpen(uint256 auctionId);
+    error DisputeAlreadyResolved(uint256 disputeId);
+    error DisputeWindowClosed(uint256 auctionId);
+    error NotDisputeParty(uint256 auctionId, address caller);
+    error InvalidDisputeResolution();
+    error NotAuctionSeller(uint256 auctionId, address caller);
+    error NotAuctionWinner(uint256 auctionId, address caller);
+    error NotAuthorized(address caller);
+    error ZeroAddressNotAllowed();
+    error ContractCallerNotAllowed(address caller);
+    error InvalidAddress(address provided);
+    error TitleTooLong(uint256 length, uint256 max);
+    error DescriptionTooLong(uint256 length, uint256 max);
+    error EmptyField(string fieldName);
+    error ReserveBelowStartingPrice(uint256 reservePrice, uint256 startingPrice);
+    error PriceMustBeGreaterThanZero();
+    error InvalidBidIncrement(uint256 provided);
+    error TransferFailed(address to, uint256 amount);
+    error InsufficientBalance(uint256 requested, uint256 available);
+    error NoFundsToWithdraw(address caller);
+    error RefundFailed(address to, uint256 amount);
+    error FeeExceedsMaximum(uint256 proposed, uint256 max);
+    error InvalidFeeRecipient();
+    error InvalidCategory(uint8 provided);
+    error ContractIsPaused();
+    error ContractNotPaused();
+    error EmergencyActionNotAllowed();
+    error StartTimeInThePast(uint256 provided, uint256 currentTimestamp);
+    error EndTimeBeforeStartTime(uint256 startTime, uint256 endTime);
+    error TimeExtensionOverflow(uint256 attemptedEndTime);
+    error ArrayLengthMismatch(uint256 lengthA, uint256 lengthB);
+    error BatchSizeTooLarge(uint256 requested, uint256 max);
+}

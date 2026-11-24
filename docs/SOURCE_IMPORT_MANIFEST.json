@@ -1,0 +1,951 @@
+{
+  "source_zip_sha256": "36743c65961655c6e70807f1dabc7dc239e96f46ac043320e7a79021d9597bdd",
+  "zip_members": [
+    {
+      "path": ".agents/skills/hardhat/SKILL.md",
+      "bytes": 7072,
+      "sha256": "5f8186627eb0437ae1e01f5a72214be6d08e98fb1f2da13ee80be787caa8532a",
+      "encoding": "utf-8",
+      "git_blob": "a20e77be81698110b44954dd776982d2436f5dcf"
+    },
+    {
+      "path": ".agents/skills/hardhat-toolbox-mocha-ethers/SKILL.md",
+      "bytes": 4950,
+      "sha256": "282a3aaa37b9d8048c76b3a8da4623cb131c920f0dac2a857d7e4e46c5341533",
+      "encoding": "utf-8",
+      "git_blob": "f4ee2e5cb0fc6b117e34522fe151c4faaf131a29"
+    },
+    {
+      "path": ".claude/skills/hardhat/SKILL.md",
+      "bytes": 7072,
+      "sha256": "5f8186627eb0437ae1e01f5a72214be6d08e98fb1f2da13ee80be787caa8532a",
+      "encoding": "utf-8",
+      "git_blob": "a20e77be81698110b44954dd776982d2436f5dcf"
+    },
+    {
+      "path": ".claude/skills/hardhat-toolbox-mocha-ethers/SKILL.md",
+      "bytes": 4950,
+      "sha256": "282a3aaa37b9d8048c76b3a8da4623cb131c920f0dac2a857d7e4e46c5341533",
+      "encoding": "utf-8",
+      "git_blob": "f4ee2e5cb0fc6b117e34522fe151c4faaf131a29"
+    },
+    {
+      "path": ".gitignore",
+      "bytes": 509,
+      "sha256": "97384e38ecbf3f6c6e0a988936687a3905510ead2fb5ccdcc27a8739e9e650ae",
+      "encoding": "utf-8",
+      "git_blob": "4cc1571df5937ddc7ab62288685bab31ce75b603"
+    },
+    {
+      "path": ".vscode/extensions.json",
+      "bytes": 227,
+      "sha256": "f2da4c6ff23223edf10700ab9812aa8fcce5d770b055b72cf85de73b2378c976",
+      "encoding": "utf-8",
+      "git_blob": "1d08ca97dd27634e0aecc4d4642ac48cf505800e"
+    },
+    {
+      "path": ".vscode/tasks.json",
+      "bytes": 1940,
+      "sha256": "841ed70460c80a2c141ed0e8ca2519f08fda1a76a6c64c5d1234cf27306a0db2",
+      "encoding": "utf-8",
+      "git_blob": "954d2ad62c76990c03400a215e5a3e56dd61858a"
+    },
+    {
+      "path": "AGENTS.md",
+      "bytes": 937,
+      "sha256": "be16229ba24306c4621832aea6c9277f9f78d730e91bdf94c6c779f383dac5da",
+      "encoding": "utf-8",
+      "git_blob": "f3cfed5006bc713091bf8cf7d4b11bac0c4881ed"
+    },
+    {
+      "path": "CLAUDE.md",
+      "bytes": 11,
+      "sha256": "336cc4fbf19beaada7ccf9986414fa91851a8d7a07dfb3ccbe800a69eed0ab49",
+      "encoding": "utf-8",
+      "git_blob": "43c994c2d3617f947bcb5adf1933e21dabe46bb5"
+    },
+    {
+      "path": "README.md",
+      "bytes": 2580,
+      "sha256": "97a34cc50c7359ca30b8b1365015bf70f623be72a380fd7ce0ffaf5954889619",
+      "encoding": "utf-8",
+      "git_blob": "7706a76753dac441c9cbe16482a153bd306ed042"
+    },
+    {
+      "path": "contracts/BlockBidMarketplace.sol",
+      "bytes": 20303,
+      "sha256": "c5436a205cf07db33c3a54cf733022c0e362e0531b426d7abcd10bd39ed5ff99",
+      "encoding": "utf-8",
+      "git_blob": "dc6cd5acbdae02158a5493070e781f55d67abdf0"
+    },
+    {
+      "path": "contracts/interfaces/IBlockBidMarketplace.sol",
+      "bytes": 3136,
+      "sha256": "8049b34976502bf67f82bb558b93ab7b7e154e28b06c5873cbb4a8145de3b6b6",
+      "encoding": "utf-8",
+      "git_blob": "0201be845bd7a1f00998f9d21c3b447b009bc57a"
+    },
+    {
+      "path": "contracts/libraries/AuctionConstants.sol",
+      "bytes": 1096,
+      "sha256": "616e774a5be1f5d9ca5b7557529f5cefed0e602742c495fabf65bfde074bb0ce",
+      "encoding": "utf-8",
+      "git_blob": "d01acaff0f9950aab6ac1fa14a9c210122cf762a"
+    },
+    {
+      "path": "contracts/libraries/AuctionEnums.sol",
+      "bytes": 797,
+      "sha256": "60c31d85d0c78c5716b02315d9e0144ad80e945e2170a04e802b982103d931fc",
+      "encoding": "utf-8",
+      "git_blob": "80da974fc97907313f55be5b83e944e362017ed8"
+    },
+    {
+      "path": "contracts/libraries/AuctionErrors.sol",
+      "bytes": 2835,
+      "sha256": "0223420ff5c561ee6a711cd3260eef3a2aa6b711c4b2249ae77754f1e40bda33",
+      "encoding": "utf-8",
+      "git_blob": "48a6c4a45cb22e65a72c97aa15f67dbe71a42b27"
+    },
+    {
+      "path": "contracts/libraries/AuctionEvents.sol",
+      "bytes": 2836,
+      "sha256": "c439454be9aa782c09c7e94bc5fb38ed9280f8f2efe842d7f45951bbeb20bd17",
+      "encoding": "utf-8",
+      "git_blob": "a54af663b772841096528bff49bb7524690720ef"
+    },
+    {
+      "path": "contracts/libraries/AuctionStorage.sol",
+      "bytes": 1140,
+      "sha256": "ee034e75eb127cb16752de384b979e988935303ca3e72d63c67178501292347c",
+      "encoding": "utf-8",
+      "git_blob": "a15ca458e602372bf472109a68ea8a9b7e240ba1"
+    },
+    {
+      "path": "contracts/libraries/AuctionStructs.sol",
+      "bytes": 2070,
+      "sha256": "feb12caf510d4ceaaf91da6f9a937d7970d43a3d5c3f71bf1edb85464f3d69e5",
+      "encoding": "utf-8",
+      "git_blob": "51d2e7e8ba1795807d8705f2d76e4bfb40116d9a"
+    },
+    {
+      "path": "contracts/utils/TimeUtils.sol",
+      "bytes": 1584,
+      "sha256": "c3f1f51a0b97e2258f32978ad34dad49d7aee10a22535241a6823f5eaa434cea",
+      "encoding": "utf-8",
+      "git_blob": "c0d0e65745b653082715fa6382e7820b91876a10"
+    },
+    {
+      "path": "contracts/utils/Validation.sol",
+      "bytes": 4542,
+      "sha256": "fdae9d8473f032b98b7fe4cb9f40664c15608c2d998d8c7aecd240c14e9ae66d",
+      "encoding": "utf-8",
+      "git_blob": "5ecf592032929904b1860b53a33258bfbb8fdb31"
+    },
+    {
+      "path": "docs/BUILD_VERIFICATION.json",
+      "bytes": 579,
+      "sha256": "d76faa96c2a85fad3ea1198dc508f79a9e387b8748646e882728ed74efe2b26b",
+      "encoding": "utf-8",
+      "git_blob": "3c83c43a738ee08f51e5cf05d8c0ad01361cd335"
+    },
+    {
+      "path": "docs/DEMO_SHOWCASE_HANDOFF.md",
+      "bytes": 3526,
+      "sha256": "5c0dc05678eec8dcb056769c864e78e0f91ddb7fcca5c1f59ca2aa285853285b",
+      "encoding": "utf-8",
+      "git_blob": "4372d188d055e031b3b8fdde21be51f555eca7c6"
+    },
+    {
+      "path": "docs/DEMO_V4_GITHUB_HANDOFF.md",
+      "bytes": 1750,
+      "sha256": "7d75a2c1341d6799d35c2d20b727484e67e7b8cb5252bcb7928708bb6a5a042b",
+      "encoding": "utf-8",
+      "git_blob": "38e7b19a81abbf6c65a114a09e72c775eb243369"
+    },
+    {
+      "path": "docs/FRONTEND_MERGE_HANDOFF.md",
+      "bytes": 5803,
+      "sha256": "bcd86b4dacfc804ffec30220cfdf9f94cebb866e8fefc654479e625491084ec3",
+      "encoding": "utf-8",
+      "git_blob": "2df541f96a66ca7825cf1c458d081ee58debe689"
+    },
+    {
+      "path": "docs/FRONTEND_SMOKE_CHECKLIST.md",
+      "bytes": 1423,
+      "sha256": "6dffbc17d6419b9ce30e1778ab3c2fb29b58de125503eaa9ad82325a82f65100",
+      "encoding": "utf-8",
+      "git_blob": "5ff90af25c5f4052c67a0d8123d693f9cb308942"
+    },
+    {
+      "path": "docs/SETUP_QA_STATUS.md",
+      "bytes": 1404,
+      "sha256": "6d7cd5ba66bb190202f2cd2b897e957ff4ba5a6aae368fd26bb86ddfeb977129",
+      "encoding": "utf-8",
+      "git_blob": "b6305ff78a162ffb1bff21efa75c5cd4f1a6227d"
+    },
+    {
+      "path": "docs/VS_CODE_START_HERE.md",
+      "bytes": 6925,
+      "sha256": "ea6bda5d7f3a6db4dd9a50aa9e250b18bbfc6be63da503b71802297c2c69752d",
+      "encoding": "utf-8",
+      "git_blob": "4c087427d1049a7f89604a883f571185ee351ff9"
+    },
+    {
+      "path": "frontend/.env.example",
+      "bytes": 319,
+      "sha256": "83245d5b5689e1d691fd5c89b22fab60c92db45cb61a97b485642da788efa629",
+      "encoding": "utf-8",
+      "git_blob": "0935ff1afeb5c298ce168a63cfd7de6806182703"
+    },
+    {
+      "path": "frontend/.gitignore",
+      "bytes": 54,
+      "sha256": "cafe10794c91c98ed892c742e60598e65982b0ad44d29fd544dab582b9959073",
+      "encoding": "utf-8",
+      "git_blob": "b5dd8f639d73583161382be78a78c1c3d08666c6"
+    },
+    {
+      "path": "frontend/.oxlintrc.json",
+      "bytes": 245,
+      "sha256": "b4d344818a1e1bf43997e4744a9153c8eef770c98b58229cd86363dabb85ded4",
+      "encoding": "utf-8",
+      "git_blob": "6fa991dad24b57eb19c9cefba8ea12fd1870ed07"
+    },
+    {
+      "path": "frontend/README.md",
+      "bytes": 2399,
+      "sha256": "d4b016d2b55049a3618c243d66841842d5dfa740eaf5ad021885629724880f18",
+      "encoding": "utf-8",
+      "git_blob": "bfffdbd04cbb63274d116874a04f9fae1b194092"
+    },
+    {
+      "path": "frontend/index.html",
+      "bytes": 1413,
+      "sha256": "d9d5acad86c5825412b6bd77913346815e89d1779dabed0548e5e922b0f42b34",
+      "encoding": "utf-8",
+      "git_blob": "daecb245a2915d44d49bc73a0fff4cc64f1021a9"
+    },
+    {
+      "path": "frontend/package-lock.json",
+      "bytes": 70572,
+      "sha256": "8e8590ee7ecf73a804d4dfbbd9ec9f4d96c7486751ed2b88872b953245d6c368",
+      "encoding": "utf-8",
+      "git_blob": "2b348006c5dbd80754b15e503513e9f0ec621b9a"
+    },
+    {
+      "path": "frontend/package.json",
+      "bytes": 681,
+      "sha256": "4b9fed159714aeccab26c4f71b084d237628ece13b48a200a08c918c24d91e48",
+      "encoding": "utf-8",
+      "git_blob": "dffce51e8bfb1b5d5647aabc2e0b216891933c5e"
+    },
+    {
+      "path": "frontend/public/blockbid-mark.svg",
+      "bytes": 420,
+      "sha256": "bd96c646bd30073aba301601a61b2285412fb5ddeed6f09e3c7f12ac5c171a75",
+      "encoding": "utf-8",
+      "git_blob": "db93cc6dcd243dfa9edffb75386e9fd647a8ba34"
+    },
+    {
+      "path": "frontend/public/favicon.svg",
+      "bytes": 9522,
+      "sha256": "61bc9a161de58248288e6905425d7180f0624c2865007b97d763fdac12043a66",
+      "encoding": "utf-8",
+      "git_blob": "6893eb13237060adc0c968a690149a49faa2d7d3"
+    },
+    {
+      "path": "frontend/public/icons.svg",
+      "bytes": 5031,
+      "sha256": "b45fa506195cfcdef406ba9f0c77b36ddc1a7c224040926ec70abc2fdea7b93a",
+      "encoding": "utf-8",
+      "git_blob": "e9522193d9f796a9748e9ad8c952a5df73c87db9"
+    },
+    {
+      "path": "frontend/public/images/Macbook.jpg",
+      "bytes": 53811,
+      "sha256": "e0b49b5f133600f3179c34316cc336292ee89e29bedbb6849fc2004055873270",
+      "encoding": "binary",
+      "git_blob": "3ef478d91eb45c6052fd8a399c4ac60921b6125f"
+    },
+    {
+      "path": "frontend/public/images/Painting.jpg",
+      "bytes": 25529,
+      "sha256": "bb91bfc0522f514b539380a96b7d93c71c715d17af489ad3994336d8f32aab30",
+      "encoding": "binary",
+      "git_blob": "749d9f20432e23373152683403e6d042d1ec9a2b"
+    },
+    {
+      "path": "frontend/public/images/Sneaker.jpg",
+      "bytes": 29530,
+      "sha256": "4d1d2c42b897631ec235746ce5a0209950e44b1fb972d637efca780f934a6943",
+      "encoding": "binary",
+      "git_blob": "c65358d8ab55f34d58721565db84d65b5bbec673"
+    },
+    {
+      "path": "frontend/public/images/smartwatch.jpg",
+      "bytes": 92570,
+      "sha256": "702b71e345b95595c539376a03f7db899b77579cff9280795cf87ca0bcc4a733",
+      "encoding": "binary",
+      "git_blob": "f14a445fe67a3b25e0ad594b065c2686c7ffd351"
+    },
+    {
+      "path": "frontend/public/metadata/Macbook.json",
+      "bytes": 154,
+      "sha256": "d4be2a034523eb0f8fdc22e6e6a6f225cc25083d2fd74a3ba01913bdc20ad1fc",
+      "encoding": "utf-8",
+      "git_blob": "755260d332946ca41a71acb0eb22df354980fd31"
+    },
+    {
+      "path": "frontend/public/metadata/Painting.json",
+      "bytes": 177,
+      "sha256": "84a8182d4f36a0250aae79406e6cca45d78888f20cce6ffa541a153286283023",
+      "encoding": "utf-8",
+      "git_blob": "fbc136010600ca7b2c42db51b4a50d122cfae795"
+    },
+    {
+      "path": "frontend/public/metadata/Sneaker.json",
+      "bytes": 178,
+      "sha256": "97a7e6786ba9d23430467b293fa2b524484f93857383d84c65ae662d128b06e0",
+      "encoding": "utf-8",
+      "git_blob": "f7e312c55c4e24c320f73459409f5ac9fd04b0cc"
+    },
+    {
+      "path": "frontend/public/metadata/smartwatch.json",
+      "bytes": 149,
+      "sha256": "0949f7f77854a1f151b4517d4775b985cc01d554bfce71275e22b6e85f93b654",
+      "encoding": "utf-8",
+      "git_blob": "412494fd115fca70236ab9a8f98a5de83ddab237"
+    },
+    {
+      "path": "frontend/scripts/check-abi.mjs",
+      "bytes": 1152,
+      "sha256": "3a2e9edd5a639d19099b4f32dbbacd179b7b9f021abd44c74e4a78153e685197",
+      "encoding": "utf-8",
+      "git_blob": "a20f571dadb577a2ffac52b979db54926b22ff0c"
+    },
+    {
+      "path": "frontend/src/App.css",
+      "bytes": 2891,
+      "sha256": "6e25a776d3e8102da5bacb3cb99f4a5fc662a2e01e6143140671a556d28c3d5c",
+      "encoding": "utf-8",
+      "git_blob": "f90339d8f765fa2c69d9a341959a8ddb9fff5720"
+    },
+    {
+      "path": "frontend/src/App.tsx",
+      "bytes": 1327,
+      "sha256": "d13a811bd6b4d53885184787da03e8b85dc3f76cb72ea93d1ae139ce23aebe41",
+      "encoding": "utf-8",
+      "git_blob": "903c7f0bab3ced016c332b65d55d2498c1e67274"
+    },
+    {
+      "path": "frontend/src/assets/hero.png",
+      "bytes": 13057,
+      "sha256": "881ffbcaafc212e49addad08846a5b82761355fa20624253af3477ba33262c5c",
+      "encoding": "binary",
+      "git_blob": "02251f4b956c55af2d76fd0788124d7eee2b45eb"
+    },
+    {
+      "path": "frontend/src/assets/react.svg",
+      "bytes": 4126,
+      "sha256": "35ef61ed53b323ae94a16a8ec659b3d0af3880698791133f23b084085ab1c2e5",
+      "encoding": "utf-8",
+      "git_blob": "6c87de9bb3358469122cc991d5cf578927246184"
+    },
+    {
+      "path": "frontend/src/assets/vite.svg",
+      "bytes": 8709,
+      "sha256": "5be21acd42eb7b896e517f4e0f0f11eb5c5d9e54fbbcebe9453f033008fcca6f",
+      "encoding": "utf-8",
+      "git_blob": "5101b674df391399da71c767aa5c976426c9dc7a"
+    },
+    {
+      "path": "frontend/src/components/AppErrorBoundary.tsx",
+      "bytes": 1807,
+      "sha256": "81b5d92b42512f40cc62d1c920d100ddf812f93f0ab43081f641509868dee07c",
+      "encoding": "utf-8",
+      "git_blob": "9e5d54859f21bd162d2f6daea76ce569b440ad6f"
+    },
+    {
+      "path": "frontend/src/components/AuctionCard.tsx",
+      "bytes": 5480,
+      "sha256": "15beaf427b8e8657b1473cc2e1381e0a8e9cdbaabba51d6ab5890d16bed7e70d",
+      "encoding": "utf-8",
+      "git_blob": "a1e95bcf42f6849e9f6fde34f428fa19c94876c5"
+    },
+    {
+      "path": "frontend/src/components/AuctionStatusBadge.tsx",
+      "bytes": 1021,
+      "sha256": "8a61d413d80b57bdff0f574ae074f586ff246beb03ea089632133577aaabeb9d",
+      "encoding": "utf-8",
+      "git_blob": "a25ae9082bf5ae3b63c065dbc5f3ff2695129f45"
+    },
+    {
+      "path": "frontend/src/components/DemoAuctionCard.tsx",
+      "bytes": 1700,
+      "sha256": "b2877465cbb91fcd34bee1e3aefa24f1114d03fe55ba017059e90ae5797b8993",
+      "encoding": "utf-8",
+      "git_blob": "11ee316bf5d5decc70f8b0d43c4d1e85cfb9c9a8"
+    },
+    {
+      "path": "frontend/src/components/DemoLauncher.tsx",
+      "bytes": 3845,
+      "sha256": "9f408cb8409f25e34b84de67e0052be3f4922dc13c4a7dc997cbaee534e90b1f",
+      "encoding": "utf-8",
+      "git_blob": "8e76eb96f34ac2daeb54403d45a9fac2169e9b22"
+    },
+    {
+      "path": "frontend/src/components/EmptyState.tsx",
+      "bytes": 1051,
+      "sha256": "393c0239d24f3d8dfe8d941e4a8a8e1d7003d7a033ca9a9625cfba512b02a182",
+      "encoding": "utf-8",
+      "git_blob": "a70bf1513679003eb21607accdbe4bd1d6a02738"
+    },
+    {
+      "path": "frontend/src/components/Footer.tsx",
+      "bytes": 828,
+      "sha256": "4a39e892c168c8417bff3cf886684e9ceb37c5c9dd347662ff68ffb8c24ff561",
+      "encoding": "utf-8",
+      "git_blob": "66a979458ba39cade0db7d825d49baa785ed0034"
+    },
+    {
+      "path": "frontend/src/components/LoadingSpinner.tsx",
+      "bytes": 550,
+      "sha256": "2f59b06c252c83537ac7feb893004e3f4e6445fe39e50732d2e008c08aaa462a",
+      "encoding": "utf-8",
+      "git_blob": "d42cab4de7e1ebcd0871b60ed44a5b6b8161a426"
+    },
+    {
+      "path": "frontend/src/components/Navbar.tsx",
+      "bytes": 4411,
+      "sha256": "407505d0358a55e02004e195e314bfaf313f456ce0bc6b3eb42d72101f3c27d3",
+      "encoding": "utf-8",
+      "git_blob": "1873fd0dfaf0dc27ecb421e2d56e151f852d4020"
+    },
+    {
+      "path": "frontend/src/components/NetworkBanner.tsx",
+      "bytes": 1586,
+      "sha256": "d634cc075b623b309380071745fd5fbe7c8c91a32b9feab5c809b0efdeb922d8",
+      "encoding": "utf-8",
+      "git_blob": "47ae4e1b9384f00f1a81e83d80ea7dbbad24d430"
+    },
+    {
+      "path": "frontend/src/components/PageHeader.tsx",
+      "bytes": 768,
+      "sha256": "548110f2ff672d6635ba4a344edb8aa75db08616e0777e36be06fd2830ce525c",
+      "encoding": "utf-8",
+      "git_blob": "e7f02426410622cdba37f05947fceeea8921bbe0"
+    },
+    {
+      "path": "frontend/src/components/StatusAlert.tsx",
+      "bytes": 1383,
+      "sha256": "093e12fa01740e1098fa0d6dd8e4499130de5c087d49b824b692a3ddc9e43dc6",
+      "encoding": "utf-8",
+      "git_blob": "385f1a19f99cae38124901c29144db157a72d51c"
+    },
+    {
+      "path": "frontend/src/components/ThemeSwitcher.tsx",
+      "bytes": 3381,
+      "sha256": "d9c00a8fb629fdaf746cc525c14cb39db1cd179e00d4d6ac4be1aa4b1272112c",
+      "encoding": "utf-8",
+      "git_blob": "f764430079d1b86a51ae26eeddbfa69f1fabb334"
+    },
+    {
+      "path": "frontend/src/components/TransactionStatusModal.tsx",
+      "bytes": 3544,
+      "sha256": "be772bfaa3f9e1a026ac68fe846e38539988ecd8ee872eb50a0c6e2f8ee2aef0",
+      "encoding": "utf-8",
+      "git_blob": "1f019f4b247eced6297e09fc0634882485a3efd7"
+    },
+    {
+      "path": "frontend/src/components/TransactionToast.tsx",
+      "bytes": 2213,
+      "sha256": "ed9f164e94f16f5441a22d8ee2e07c8c5ed856acbd232a17127f48e8f11043c5",
+      "encoding": "utf-8",
+      "git_blob": "4fa1b35ca82567a853c17092c77f252f42c2086c"
+    },
+    {
+      "path": "frontend/src/components/WalletButton.tsx",
+      "bytes": 1851,
+      "sha256": "d479ce298fca45b6cfb9b6917bd2228938989b160e9e03d3b86753e82c90b3cb",
+      "encoding": "utf-8",
+      "git_blob": "e87e3710926c8f5e393e91c77b17902580f64fd7"
+    },
+    {
+      "path": "frontend/src/config/network.ts",
+      "bytes": 823,
+      "sha256": "993a45318c71daeb8809993c401afb10b47d5062131088dbd384261e6b49f0bb",
+      "encoding": "utf-8",
+      "git_blob": "3d11dda337a303b12ac3060baa506f92bbad630d"
+    },
+    {
+      "path": "frontend/src/context/ThemeContext.tsx",
+      "bytes": 3271,
+      "sha256": "7923f3a63bd2658de037cf50077e922596d6d60819462709637fd46cb69d6902",
+      "encoding": "utf-8",
+      "git_blob": "de0003ee6efbb1c62d5e65e3ae5c39132eca1ff1"
+    },
+    {
+      "path": "frontend/src/context/WalletContext.tsx",
+      "bytes": 6746,
+      "sha256": "87297e0c6e9cc406b90782ccf1fe6075a38edbd2c56c75d28af456c8a95b5e27",
+      "encoding": "utf-8",
+      "git_blob": "4114d70f371cc1cfb78b8d893b5bac61ccd96691"
+    },
+    {
+      "path": "frontend/src/contracts/BlockBidMarketplace.json",
+      "bytes": 93712,
+      "sha256": "d3967793e3f247cd0a7c28f8976e403f68ff873a41ea264e8012f074c68accf3",
+      "encoding": "utf-8",
+      "git_blob": "3c71a4556deee1acb6e217f5370fbd4e35b60b7a"
+    },
+    {
+      "path": "frontend/src/contracts/contractAddress.ts",
+      "bytes": 40,
+      "sha256": "b96ec3620e5e99e1b8b06de3fb915b3b0f0505c8bc74b19b58a49452d8664bce",
+      "encoding": "utf-8",
+      "git_blob": "a356d045329b8e254431a62acbb7e0931c47c2a9"
+    },
+    {
+      "path": "frontend/src/contracts/contractConfig,ts",
+      "bytes": 220,
+      "sha256": "7937c7cee433327e95c0140d0757b2535e921976f6e20ea45bea24de7b3b1073",
+      "encoding": "utf-8",
+      "git_blob": "c6eacaa470d1cc48ec6672f708b8de398aec331f"
+    },
+    {
+      "path": "frontend/src/contracts/contractConfig.ts",
+      "bytes": 671,
+      "sha256": "d703d6b0c763215e9bca62d5e7fe8a7a12f8b7996b7681eb3613eba501c19881",
+      "encoding": "utf-8",
+      "git_blob": "8419bb9fac31e42b62bf131eab5b567af23c998d"
+    },
+    {
+      "path": "frontend/src/demo/catalog.ts",
+      "bytes": 7455,
+      "sha256": "c16908077bc53a3c431e7f78b238481580cefb3d0fc1eafdf2972eaf3ded6ed2",
+      "encoding": "utf-8",
+      "git_blob": "2ca713ee63fae8f6ee67da4e7724b49d05c270cd"
+    },
+    {
+      "path": "frontend/src/demo/localSimulation.ts",
+      "bytes": 1805,
+      "sha256": "34607ff32e9af212431b3edcc4f7c7db5726066a35ec124897be46471cb1ebfa",
+      "encoding": "utf-8",
+      "git_blob": "da79633f18bf20b4ac3787247dcd9e4161d8cd7d"
+    },
+    {
+      "path": "frontend/src/hooks/useBlockBid.ts",
+      "bytes": 2484,
+      "sha256": "c1cfab4ea799ef946c9db05ffc9a102298fea102ebb3fb1cc51d26a43ff16d8a",
+      "encoding": "utf-8",
+      "git_blob": "f3a2f60f8d3b085f41549d74f0f5e48cc8b3a189"
+    },
+    {
+      "path": "frontend/src/hooks/useContractTransaction.ts",
+      "bytes": 1775,
+      "sha256": "1e4cb9e2dd79e88ee8cf634bdfa3207642b93eefa32d109f2d5457dcc916a628",
+      "encoding": "utf-8",
+      "git_blob": "114521472f97f41ad8c47435274d817e51409583"
+    },
+    {
+      "path": "frontend/src/hooks/useWallet.ts",
+      "bytes": 284,
+      "sha256": "9950eb0d1e08ec51c67e17242ee5aab508845c4114538bdd7d87c8023090edbc",
+      "encoding": "utf-8",
+      "git_blob": "f4a93ea631298ff6a7741055b86235235442e79e"
+    },
+    {
+      "path": "frontend/src/index.css",
+      "bytes": 17543,
+      "sha256": "983526b64d09dea709add5f4ed2ede4c03e63f1817de9609e78f6f2838b30695",
+      "encoding": "utf-8",
+      "git_blob": "8b8046437a2774b3374f7e521b174aa144fdf3f1"
+    },
+    {
+      "path": "frontend/src/layouts/AppLayout.tsx",
+      "bytes": 1089,
+      "sha256": "334f3370c80f0b99d334095629ee6b48b5bc1ec5678b218d71c79134c160d19b",
+      "encoding": "utf-8",
+      "git_blob": "433e7d88a6976a476aa154e0627d414b0007e395"
+    },
+    {
+      "path": "frontend/src/main.tsx",
+      "bytes": 766,
+      "sha256": "ebda7b1cf98a31e10cfd03f9376651fd77f8f685d80e958a5f283e340ae5a1cc",
+      "encoding": "utf-8",
+      "git_blob": "372ee72b2cfcd1916a788e5e440221a66873c2e1"
+    },
+    {
+      "path": "frontend/src/pages/AdminPage.tsx",
+      "bytes": 14377,
+      "sha256": "e5698da8c78130399cb825b61e4f51ed4b1107d75a8b34dc45fcd339b51d3b9c",
+      "encoding": "utf-8",
+      "git_blob": "d7fcfaabc5b381de933a849bf69074bf170c7137"
+    },
+    {
+      "path": "frontend/src/pages/AuctionDetails.tsx",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "encoding": "utf-8",
+      "git_blob": "e69de29bb2d1d6434b8b29ae775ad8c2e48c5391"
+    },
+    {
+      "path": "frontend/src/pages/AuctionDetailsPage.tsx",
+      "bytes": 18639,
+      "sha256": "4f7baa84f214d6f3ef331d494d6a502e95505b3239d030ab4fa1ae923beb57a6",
+      "encoding": "utf-8",
+      "git_blob": "1ee5aecf8e6592b882e18c291735edaf6ab22d8f"
+    },
+    {
+      "path": "frontend/src/pages/CreateAuction.tsx",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "encoding": "utf-8",
+      "git_blob": "e69de29bb2d1d6434b8b29ae775ad8c2e48c5391"
+    },
+    {
+      "path": "frontend/src/pages/CreateAuctionPage.tsx",
+      "bytes": 31245,
+      "sha256": "904c136948c067890c1cff70f9404d8bad8b91f972ba9230c5881b60cae5df06",
+      "encoding": "utf-8",
+      "git_blob": "1dc5a4a02172546c1d840989de0c333fb7ab4cee"
+    },
+    {
+      "path": "frontend/src/pages/Dashboard.tsx",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "encoding": "utf-8",
+      "git_blob": "e69de29bb2d1d6434b8b29ae775ad8c2e48c5391"
+    },
+    {
+      "path": "frontend/src/pages/DashboardPage.tsx",
+      "bytes": 12370,
+      "sha256": "6a656662b8e139b86fcd8f952c3252583bbe80aadb9eeafa1b031372089139fd",
+      "encoding": "utf-8",
+      "git_blob": "74bcf712a738cb6b23deb77e337dd54c0e12c3d1"
+    },
+    {
+      "path": "frontend/src/pages/DemoAuctionDetailsPage.tsx",
+      "bytes": 3763,
+      "sha256": "9d9c12011e35ff16207e83aef064f8d909415f1a756ad9a7ed1aa9c8fb1822a1",
+      "encoding": "utf-8",
+      "git_blob": "7c33b9d198d4a49ddd8259d7764fd4c97cfdc3c0"
+    },
+    {
+      "path": "frontend/src/pages/DemoShowcasePage.tsx",
+      "bytes": 2883,
+      "sha256": "2df365f5b40ddf03e2b3c1eaa07a39173958a9683bcbe4e09993f456e31eaa73",
+      "encoding": "utf-8",
+      "git_blob": "e4251b76213c7019639cc89d7f0b0c7663bea02c"
+    },
+    {
+      "path": "frontend/src/pages/Marketplace.tsx",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "encoding": "utf-8",
+      "git_blob": "e69de29bb2d1d6434b8b29ae775ad8c2e48c5391"
+    },
+    {
+      "path": "frontend/src/pages/MarketplacePage.tsx",
+      "bytes": 14161,
+      "sha256": "277313358425d5d6a8eda0f43324ea3c599e1501be332961c087441c7715258f",
+      "encoding": "utf-8",
+      "git_blob": "f83a1f8981d5cef78efbf3ee9b89cb3afe75a6d4"
+    },
+    {
+      "path": "frontend/src/pages/NotFoundPage.tsx",
+      "bytes": 400,
+      "sha256": "a237e342d91c62395699f227112856450ea997af6dfedc969280c72447d24f4e",
+      "encoding": "utf-8",
+      "git_blob": "afed86aa9be6d6c62088569a2b23b2cb5f875779"
+    },
+    {
+      "path": "frontend/src/pages/StatisticsPage.tsx",
+      "bytes": 5972,
+      "sha256": "73d8316bcdcf3a6b1e38c018687444742fb42297dfd496fdeeb120549d14eb54",
+      "encoding": "utf-8",
+      "git_blob": "e5632640b87cbb20abd8ba15f01498869bd99764"
+    },
+    {
+      "path": "frontend/src/services/blockBidService.ts",
+      "bytes": 17639,
+      "sha256": "678664e689c860fcc2d50e671838b2afa6335d904bea2034b4d4ce8180caa2d9",
+      "encoding": "utf-8",
+      "git_blob": "d88b9f46c7efd9c9e43b96ac9b871b31543977cc"
+    },
+    {
+      "path": "frontend/src/services/localMetadataService.ts",
+      "bytes": 3443,
+      "sha256": "11cb7b5f22e1fb8ad09589460a85a65752f5fecdf5150034dd69a8b353a96865",
+      "encoding": "utf-8",
+      "git_blob": "1f7ac92d5a8ecc72156d05cfc7d4404fccbbe4c5"
+    },
+    {
+      "path": "frontend/src/types/blockBid.ts",
+      "bytes": 3250,
+      "sha256": "9a2d350130c2d7862db6b432a0593f849d4910eb0fe1c4853d5546ad2404b822",
+      "encoding": "utf-8",
+      "git_blob": "e2a78f49cbad1a2dabb6c0d7317f6091ab098e5b"
+    },
+    {
+      "path": "frontend/src/utils/address.ts",
+      "bytes": 255,
+      "sha256": "57e7d211ad4ff3755056d0d57f8ba9c2d496693d6f272d7da5f73b6af71fa906",
+      "encoding": "utf-8",
+      "git_blob": "01ea2b0262b9475b2dc2c2c95b8fe00b3a9e420c"
+    },
+    {
+      "path": "frontend/src/utils/format.ts",
+      "bytes": 3401,
+      "sha256": "2e0ddbe807287e91355ca167d26da2e92076ecf64162e2bd1d5ca2789aff1c74",
+      "encoding": "utf-8",
+      "git_blob": "35ab37cd57bbc0f3bbaf976f50e0537cb542e871"
+    },
+    {
+      "path": "frontend/src/utils/metadata.ts",
+      "bytes": 2286,
+      "sha256": "a9ad684c53f856c1a0bea22a5d71a02f50bedd6e7cfc9d82170b77156e61e56c",
+      "encoding": "utf-8",
+      "git_blob": "a3b16ad7d888a494d6d7ec7e8d5aa5b8aee3ef57"
+    },
+    {
+      "path": "frontend/src/vite-env.d.ts",
+      "bytes": 1042,
+      "sha256": "38722cabdea70bd9d5793d7988c6f41ad5bffa8e08a64f1c0c500788e85a6ef7",
+      "encoding": "utf-8",
+      "git_blob": "091f74b587c8919daae8228d5ef7cb4514307680"
+    },
+    {
+      "path": "frontend/tsconfig.app.json",
+      "bytes": 678,
+      "sha256": "1ef548f49ec4ae21325000b60b0b711c4f3d94befa37b1157f94e4628e3f398c",
+      "encoding": "utf-8",
+      "git_blob": "a5701b6bd562fbc734048184fd80abe06df0c3b6"
+    },
+    {
+      "path": "frontend/tsconfig.json",
+      "bytes": 119,
+      "sha256": "770b4140bbb581e2dfd9ea9946ffc9c75a1d86ba7d2db5f77c83e37cbdf9d808",
+      "encoding": "utf-8",
+      "git_blob": "1ffef600d959ec9e396d5a260bd3f5b927b2cef8"
+    },
+    {
+      "path": "frontend/tsconfig.node.json",
+      "bytes": 413,
+      "sha256": "2fba2f25e1859f193b54edef5d2d2cd08cae2a37fab64c08699f6f8672bea2cc",
+      "encoding": "utf-8",
+      "git_blob": "3950b4b1904b2932389e09ead72fd1324da88a3b"
+    },
+    {
+      "path": "frontend/vite.config.ts",
+      "bytes": 196,
+      "sha256": "bb86efeb11e83afcc5bf8a83127418024746b107a60ba6c7ccc187dca9cd1b5d",
+      "encoding": "utf-8",
+      "git_blob": "fcdeea23758ef82e3a76012059a97766b6774423"
+    },
+    {
+      "path": "hardhat.config.ts",
+      "bytes": 1034,
+      "sha256": "4936d43ba948451aeaf4b9b987d2c4645d1a723335640fbea5f8aabf8e8bd8d1",
+      "encoding": "utf-8",
+      "git_blob": "3e57d74ba28b0fe7c1cb1f03b430d9b505f8978e"
+    },
+    {
+      "path": "ignition/modules/BlockBidMarketplace.ts",
+      "bytes": 387,
+      "sha256": "507da58bcc92c7d9b222b35181a6112871502da581c5e6950c8833d2dd1b91bf",
+      "encoding": "utf-8",
+      "git_blob": "52e94e458f1c7cdc5a144ee9bfd5aeea5dd8431d"
+    },
+    {
+      "path": "ignition/modules/Counter.ts",
+      "bytes": 230,
+      "sha256": "23791f4c5fe8783b0e7fc3c8b2dc5185111fc536ebcb1cbde546a319cd80db94",
+      "encoding": "utf-8",
+      "git_blob": "042e61c81d636860e97f43532f6315699b8acfa7"
+    },
+    {
+      "path": "package-lock.json",
+      "bytes": 147836,
+      "sha256": "6fc7cc2b209167c5872905e3ec2d2e0b6c57a8d0dd3d25f7ca517eb8bea24cd6",
+      "encoding": "utf-8",
+      "git_blob": "bd673bf597f9915c6c95268078022341ab221b44"
+    },
+    {
+      "path": "package.json",
+      "bytes": 914,
+      "sha256": "a13d129732c5abee59c995796e2cb1a144d932fa1a5f1e9d997ed59799c0c7a8",
+      "encoding": "utf-8",
+      "git_blob": "c8cc311304847e9e3efdd60b2baf7a1e914bc879"
+    },
+    {
+      "path": "scripts/send-op-tx.ts",
+      "bytes": 482,
+      "sha256": "7840b5eecc9ccfccc2e0876fb594f2c546ce2e3f909071e246e475568cc27c3e",
+      "encoding": "utf-8",
+      "git_blob": "a615cbba96ec2e066e3376f16eaf132b7968e79d"
+    },
+    {
+      "path": "test/BlockBidMarketplace.fixed.test.ts",
+      "bytes": 23382,
+      "sha256": "4725979043e1a3c5b78b949bf56423da3a687eabeb18ce6a0f32e7154c2dfdad",
+      "encoding": "utf-8",
+      "git_blob": "39c27a7a1c8de1b701ce5d92db4bdea4afe7e160"
+    },
+    {
+      "path": "test/TESTING.md",
+      "bytes": 532,
+      "sha256": "f1a84365b86e8c571d081bd3e639acbdf007ddc284b72171851e6218c96daf09",
+      "encoding": "utf-8",
+      "git_blob": "cbd4a94bf494d6d35c8c8060b18e1c5b02c0cd26"
+    },
+    {
+      "path": "test/package.json",
+      "bytes": 848,
+      "sha256": "13d0f6c2173d6b5fcabaa31992d47174251a7fb0e1bbce81bfc5cb71287d69ed",
+      "encoding": "utf-8",
+      "git_blob": "90663ba2f422b02a327932eb02913993fd9d2b0a"
+    },
+    {
+      "path": "tsconfig.json",
+      "bytes": 215,
+      "sha256": "99c8b5f07448d81a615de4ef3b4d36825b33d85d3b984856e38fef95fcdd5566",
+      "encoding": "utf-8",
+      "git_blob": "661ab8bbd57e443660b3fe12ac266a21b48c7cc0"
+    }
+  ],
+  "excluded": [
+    {
+      "path": "type",
+      "reason": "Untracked type/compiler scratch file"
+    },
+    {
+      "path": "types/ethers-contracts/BlockBidMarketplace.ts",
+      "reason": "Generated/dependency/history path"
+    },
+    {
+      "path": "types/ethers-contracts/common.ts",
+      "reason": "Generated/dependency/history path"
+    },
+    {
+      "path": "types/ethers-contracts/factories/BlockBidMarketplace__factory.ts",
+      "reason": "Generated/dependency/history path"
+    },
+    {
+      "path": "types/ethers-contracts/factories/index.ts",
+      "reason": "Generated/dependency/history path"
+    },
+    {
+      "path": "types/ethers-contracts/factories/interfaces/IBlockBidMarketplace__factory.ts",
+      "reason": "Generated/dependency/history path"
+    },
+    {
+      "path": "types/ethers-contracts/factories/interfaces/index.ts",
+      "reason": "Generated/dependency/history path"
+    },
+    {
+      "path": "types/ethers-contracts/factories/libraries/AuctionErrors__factory.ts",
+      "reason": "Generated/dependency/history path"
+    },
+    {
+      "path": "types/ethers-contracts/factories/libraries/AuctionEvents__factory.ts",
+      "reason": "Generated/dependency/history path"
+    },
+    {
+      "path": "types/ethers-contracts/factories/libraries/index.ts",
+      "reason": "Generated/dependency/history path"
+    },
+    {
+      "path": "types/ethers-contracts/hardhat.d.ts",
+      "reason": "Generated/dependency/history path"
+    },
+    {
+      "path": "types/ethers-contracts/index.ts",
+      "reason": "Generated/dependency/history path"
+    },
+    {
+      "path": "types/ethers-contracts/interfaces/IBlockBidMarketplace.ts",
+      "reason": "Generated/dependency/history path"
+    },
+    {
+      "path": "types/ethers-contracts/interfaces/index.ts",
+      "reason": "Generated/dependency/history path"
+    },
+    {
+      "path": "types/ethers-contracts/libraries/AuctionErrors.ts",
+      "reason": "Generated/dependency/history path"
+    },
+    {
+      "path": "types/ethers-contracts/libraries/AuctionEvents.ts",
+      "reason": "Generated/dependency/history path"
+    },
+    {
+      "path": "types/ethers-contracts/libraries/index.ts",
+      "reason": "Generated/dependency/history path"
+    }
+  ],
+  "solidity_comparison": [
+    {
+      "path": "contracts/BlockBidMarketplace.sol",
+      "matches_C01": true,
+      "sha256": "c5436a205cf07db33c3a54cf733022c0e362e0531b426d7abcd10bd39ed5ff99"
+    },
+    {
+      "path": "contracts/interfaces/IBlockBidMarketplace.sol",
+      "matches_C01": true,
+      "sha256": "8049b34976502bf67f82bb558b93ab7b7e154e28b06c5873cbb4a8145de3b6b6"
+    },
+    {
+      "path": "contracts/libraries/AuctionConstants.sol",
+      "matches_C01": true,
+      "sha256": "616e774a5be1f5d9ca5b7557529f5cefed0e602742c495fabf65bfde074bb0ce"
+    },
+    {
+      "path": "contracts/libraries/AuctionEnums.sol",
+      "matches_C01": true,
+      "sha256": "60c31d85d0c78c5716b02315d9e0144ad80e945e2170a04e802b982103d931fc"
+    },
+    {
+      "path": "contracts/libraries/AuctionErrors.sol",
+      "matches_C01": true,
+      "sha256": "0223420ff5c561ee6a711cd3260eef3a2aa6b711c4b2249ae77754f1e40bda33"
+    },
+    {
+      "path": "contracts/libraries/AuctionEvents.sol",
+      "matches_C01": true,
+      "sha256": "c439454be9aa782c09c7e94bc5fb38ed9280f8f2efe842d7f45951bbeb20bd17"
+    },
+    {
+      "path": "contracts/libraries/AuctionStorage.sol",
+      "matches_C01": true,
+      "sha256": "ee034e75eb127cb16752de384b979e988935303ca3e72d63c67178501292347c"
+    },
+    {
+      "path": "contracts/libraries/AuctionStructs.sol",
+      "matches_C01": true,
+      "sha256": "feb12caf510d4ceaaf91da6f9a937d7970d43a3d5c3f71bf1edb85464f3d69e5"
+    },
+    {
+      "path": "contracts/utils/TimeUtils.sol",
+      "matches_C01": true,
+      "sha256": "c3f1f51a0b97e2258f32978ad34dad49d7aee10a22535241a6823f5eaa434cea"
+    },
+    {
+      "path": "contracts/utils/Validation.sol",
+      "matches_C01": true,
+      "sha256": "fdae9d8473f032b98b7fe4cb9f40664c15608c2d998d8c7aecd240c14e9ae66d"
+    }
+  ],
+  "frontend_abi_matches_C01_verified_artifact": true,
+  "dependency_lockfiles_match_C01": [
+    {
+      "path": "package-lock.json",
+      "matches_C01": true
+    },
+    {
+      "path": "frontend/package-lock.json",
+      "matches_C01": true
+    }
+  ],
+  "new_runtime_contract_tests": false
+}

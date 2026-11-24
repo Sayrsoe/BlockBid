@@ -1,0 +1,10 @@
+{
+  "recommendations": [
+    "NomicFoundation.hardhat-solidity",
+    "esbenp.prettier-vscode",
+    "dbaeumer.vscode-eslint",
+    "bradlc.vscode-tailwindcss",
+    "GitHub.vscode-pull-request-github",
+    "eamodio.gitlens"
+  ]
+}
