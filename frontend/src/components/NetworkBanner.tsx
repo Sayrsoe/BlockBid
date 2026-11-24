@@ -1,3 +1,4 @@
+import { hasVerifiedDeployment, deploymentUnavailableMessage } from "../contracts/contractConfig";
 import { targetNetwork } from "../config/network";
 import { useWallet } from "../hooks/useWallet";
 import { LoadingSpinner } from "./LoadingSpinner";
@@ -12,6 +13,16 @@ export function NetworkBanner() {
     switchNetwork,
     clearError,
   } = useWallet();
+
+  if (!hasVerifiedDeployment) {
+    return (
+      <div className="app-container pt-4 [&_[role=status]]:text-(--bb-fg)">
+        <StatusAlert title="Frontend preview · Local RPC unavailable">
+          {deploymentUnavailableMessage} Listing previews stay in this tab.
+        </StatusAlert>
+      </div>
+    );
+  }
 
   return (
     <div className="app-container space-y-3 pt-4">

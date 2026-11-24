@@ -1,3 +1,4 @@
+import { hasVerifiedDeployment } from "../contracts/contractConfig";
 import { useCallback, useEffect, useState } from "react";
 import { LoadingSpinner } from "../components/LoadingSpinner";
 import { PageHeader } from "../components/PageHeader";
@@ -22,6 +23,7 @@ export function StatisticsPage() {
   const [error, setError] = useState<string | null>(null);
 
   const loadStatistics = useCallback(async () => {
+    if (!hasVerifiedDeployment) return;
     setIsLoading(true);
     setError(null);
 
@@ -41,6 +43,10 @@ export function StatisticsPage() {
   useEffect(() => {
     void loadStatistics();
   }, [loadStatistics]);
+
+  if (!hasVerifiedDeployment) {
+    return <PageHeader title="Marketplace statistics" description="Available after the local deployment is verified." />;
+  }
 
   return (
     <div className="space-y-8">

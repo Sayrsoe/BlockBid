@@ -1,3 +1,4 @@
+import { hasVerifiedDeployment } from "../contracts/contractConfig";
 import { useCallback, useEffect, useMemo, useState, type ReactNode } from "react";
 import { AuctionCard } from "../components/AuctionCard";
 import { EmptyState } from "../components/EmptyState";
@@ -37,6 +38,7 @@ export function DashboardPage() {
   const [success, setSuccess] = useState<string | null>(null);
 
   const loadDashboard = useCallback(async () => {
+    if (!hasVerifiedDeployment) return;
     if (!account) {
       setData(null);
       return;
@@ -106,6 +108,10 @@ export function DashboardPage() {
       ).length,
     };
   }, [account, data]);
+
+  if (!hasVerifiedDeployment) {
+    return <PageHeader title="Dashboard" description="Available after the local deployment is verified." />;
+  }
 
   return (
     <div className="space-y-8">

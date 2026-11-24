@@ -89,7 +89,7 @@ export function AuctionCard({ auction, metadata: providedMetadata }: AuctionCard
               {metadataTitle(metadata, auction.auctionId)}
             </h2>
             <p className="mt-2 line-clamp-2 min-h-10 text-sm leading-5 text-slate-500">
-              {metadata?.description || "Demo listing; item delivery is not guaranteed."}
+              {metadata?.description || "Listing description unavailable."}
             </p>
           </div>
         </div>

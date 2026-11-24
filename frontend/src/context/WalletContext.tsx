@@ -1,3 +1,4 @@
+import { hasVerifiedDeployment, deploymentUnavailableMessage } from "../contracts/contractConfig";
 import {
   BrowserProvider,
   getAddress,
@@ -68,12 +69,16 @@ export function WalletProvider({ children }: PropsWithChildren) {
   const [account, setAccount] = useState<string | null>(null);
   const [chainId, setChainId] = useState<bigint | null>(null);
   const [provider, setProvider] = useState<BrowserProvider | null>(null);
-  const [status, setStatus] = useState<WalletStatus>("checking");
+  const [status, setStatus] = useState<WalletStatus>(hasVerifiedDeployment ? "checking" : "idle");
   const [error, setError] = useState<string | null>(null);
 
-  const isMetaMaskAvailable = typeof window !== "undefined" && Boolean(window.ethereum);
+  const isMetaMaskAvailable = hasVerifiedDeployment && typeof window !== "undefined" && Boolean(window.ethereum);
 
   const syncWallet = useCallback(async (requestAccess: boolean) => {
+    if (!hasVerifiedDeployment) {
+      if (requestAccess) setError(deploymentUnavailableMessage);
+      return;
+    }
     const injected = window.ethereum;
 
     if (!injected) {
@@ -130,6 +135,10 @@ export function WalletProvider({ children }: PropsWithChildren) {
   }, []);
 
   const switchNetwork = useCallback(async () => {
+    if (!hasVerifiedDeployment) {
+      setError(deploymentUnavailableMessage);
+      return;
+    }
     const injected = window.ethereum;
     if (!injected) {
       setError("MetaMask was not detected in this browser.");
@@ -191,6 +200,7 @@ export function WalletProvider({ children }: PropsWithChildren) {
   }, [syncWallet]);
 
   useEffect(() => {
+    if (!hasVerifiedDeployment) return;
     const injected = window.ethereum;
     if (!injected) {
       return;

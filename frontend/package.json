@@ -5,12 +5,12 @@
   "type": "module",
   "scripts": {
     "dev": "vite",
-    "build": "npm run verify:source && npm run check:abi && tsc -b && vite build",
+    "build": "npm run verify:source && npm run check:abi && tsc -b && vite build && node scripts/check-source.mjs --dist",
     "typecheck": "tsc -b --pretty",
     "preview": "vite preview",
     "check:abi": "node scripts/check-abi.mjs",
     "verify:source": "node scripts/check-source.mjs",
-    "test:foundation": "node --experimental-strip-types --test scripts/concurrency.test.mjs"
+    "test:foundation": "node --experimental-strip-types --test scripts/concurrency.test.mjs scripts/data.test.mjs"
   },
   "dependencies": {
     "ethers": "^6.17.0",

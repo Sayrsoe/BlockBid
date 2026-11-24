@@ -1,3 +1,4 @@
+import { hasVerifiedDeployment } from "../contracts/contractConfig";
 import { isAddress, ZeroAddress } from "ethers";
 import { useCallback, useEffect, useState, type FormEvent } from "react";
 import { LoadingSpinner } from "../components/LoadingSpinner";
@@ -41,6 +42,7 @@ export function AdminPage() {
     transaction.phase === "awaiting-signature" || transaction.phase === "pending";
 
   const loadAdmin = useCallback(async () => {
+    if (!hasVerifiedDeployment) return;
     setIsLoading(true);
     setError(null);
 
@@ -118,6 +120,10 @@ export function AdminPage() {
 
   const isOwner =
     Boolean(account && data) && account!.toLowerCase() === data!.owner.toLowerCase();
+
+  if (!hasVerifiedDeployment) {
+    return <PageHeader title="Marketplace controls" description="Available after the local deployment is verified." />;
+  }
 
   return (
     <div className="space-y-8">

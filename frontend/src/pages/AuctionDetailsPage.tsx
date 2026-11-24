@@ -1,3 +1,4 @@
+import { hasVerifiedDeployment, deploymentUnavailableMessage } from "../contracts/contractConfig";
 import { useCallback, useEffect, useState, type ChangeEvent, type FormEvent, type ReactNode } from "react";
 import { ZeroAddress, parseEther } from "ethers";
 import { Link, useParams } from "react-router";
@@ -51,6 +52,7 @@ export function AuctionDetailsPage() {
   const [now, setNow] = useState(Date.now());
 
   const loadDetails = useCallback(async () => {
+    if (!hasVerifiedDeployment) return;
     if (numericId === null) {
       setIsLoading(false);
       return;
@@ -103,6 +105,10 @@ export function AuctionDetailsPage() {
 
   if (numericId === null) {
     return <Unavailable title="Invalid auction ID" description="The route must contain a numeric on-chain auction identifier." />;
+  }
+
+  if (!hasVerifiedDeployment) {
+    return <Unavailable title="Auction data unavailable" description={deploymentUnavailableMessage} />;
   }
 
   if (isLoading) {
@@ -164,7 +170,7 @@ export function AuctionDetailsPage() {
       <PageHeader
         eyebrow={`Auction #${auction.auctionId.toString()}`}
         title={metadataTitle(metadata, auction.auctionId)}
-        description={metadata?.description || "Demo listing; item delivery is not guaranteed."}
+        description={metadata?.description || "Listing description unavailable."}
       />
 
       {error ? <StatusAlert tone="error" title="Action failed">{error}</StatusAlert> : null}

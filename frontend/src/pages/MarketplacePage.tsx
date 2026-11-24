@@ -1,6 +1,6 @@
+import { hasVerifiedDeployment } from "../contracts/contractConfig";
 import { useCallback, useEffect, useMemo, useState, type ChangeEvent } from "react";
 import { Link } from "react-router";
-import { DemoLauncher } from "../components/DemoLauncher";
 import { AuctionCard } from "../components/AuctionCard";
 import { EmptyState } from "../components/EmptyState";
 import { LoadingSpinner } from "../components/LoadingSpinner";
@@ -38,6 +38,7 @@ export function MarketplacePage() {
   const [error, setError] = useState<string | null>(null);
 
   const loadAuctions = useCallback(async () => {
+    if (!hasVerifiedDeployment) return;
     setIsLoading(true);
     setError(null);
 
@@ -51,6 +52,8 @@ export function MarketplacePage() {
       );
       setMetadata(Object.fromEntries(entries));
     } catch (loadError) {
+      setAuctions([]);
+      setMetadata({});
       setError(readContractError(loadError));
     } finally {
       setIsLoading(false);
@@ -101,6 +104,22 @@ export function MarketplacePage() {
     });
   }, [auctions, categoryFilter, metadata, search, sort, statusFilter]);
 
+  if (!hasVerifiedDeployment) {
+    return (
+      <div className="space-y-6">
+        <PageHeader
+          title="Marketplace"
+          description="Browse auction listings once the local deployment is verified."
+        />
+        <EmptyState
+          title="Auction data unavailable"
+          description="The app has no verified auction data to display."
+          action={<Link to="/create" className="button-primary">Preview a listing</Link>}
+        />
+      </div>
+    );
+  }
+
   return (
     <div className="space-y-12">
       <section className="surface-card-strong cosmic-border relative overflow-hidden px-6 py-12 sm:px-10 sm:py-16 lg:px-14">
@@ -126,7 +145,6 @@ export function MarketplacePage() {
             Create listings, bid with local ETH, recover outbid funds, and settle every winner through transparent smart-contract logic.
           </p>
           <div className="mt-8 flex flex-wrap gap-3">
-            <DemoLauncher label="Try Interactive Demo" />
             <Link to="/create" className="button-primary px-5 py-3">
               <RocketIcon /> Create auction
             </Link>
@@ -136,9 +154,9 @@ export function MarketplacePage() {
           </div>
 
           <div className="mt-10 grid max-w-2xl grid-cols-3 gap-3">
-            <HeroStat label="Auctions" value={String(auctions.length)} />
-            <HeroStat label="Live now" value={String(activeCount)} />
-            <HeroStat label="Total bids" value={String(totalBids)} />
+            <HeroStat label="Auctions" value={isLoading || error ? "—" : String(auctions.length)} />
+            <HeroStat label="Live now" value={isLoading || error ? "—" : String(activeCount)} />
+            <HeroStat label="Total bids" value={isLoading || error ? "—" : String(totalBids)} />
           </div>
         </div>
       </section>
@@ -157,9 +175,9 @@ export function MarketplacePage() {
         />
 
         <div className="grid gap-3 sm:grid-cols-3">
-          <MetricCard label="Active auctions" value={String(activeCount)} accent="violet" />
-          <MetricCard label="Finalized sales" value={String(finalizedCount)} accent="cyan" />
-          <MetricCard label="Recorded bids" value={String(totalBids)} accent="emerald" />
+          <MetricCard label="Active auctions" value={isLoading || error ? "—" : String(activeCount)} accent="violet" />
+          <MetricCard label="Finalized sales" value={isLoading || error ? "—" : String(finalizedCount)} accent="cyan" />
+          <MetricCard label="Recorded bids" value={isLoading || error ? "—" : String(totalBids)} accent="emerald" />
         </div>
 
         <div className="surface-card grid gap-3 p-4 sm:grid-cols-2 lg:grid-cols-[minmax(0,1.4fr)_repeat(3,minmax(0,.7fr))] sm:p-5">
@@ -208,10 +226,10 @@ export function MarketplacePage() {
 
         {isLoading ? (
           <AuctionSkeletons />
-        ) : filteredAuctions.length === 0 ? (
+        ) : error ? null : filteredAuctions.length === 0 ? (
           <EmptyState
             icon={<AuctionIcon />}
-            title={auctions.length === 0 ? "No auctions in this galaxy yet" : "No matching auctions found"}
+            title={auctions.length === 0 ? "No on-chain auctions yet" : "No matching auctions found"}
             description={auctions.length === 0 ? "Create the first listing and launch it onto the local blockchain." : "Try a different search, category, status, or sorting option."}
             action={<Link to="/create" className="button-primary">Create the first auction</Link>}
           />

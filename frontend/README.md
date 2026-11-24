@@ -1,74 +1,24 @@
-# BlockBid Frontend
+# BlockBid frontend
 
-Premium dark-galaxy React interface for the BlockBid decentralized auction marketplace.
+## Run the frontend preview
 
-## Local setup
+From this checkout, select the approved Node 24 runtime, then run the commands below. The frontend uses the installed locked dependencies.
 
-1. Keep the Hardhat node running from the project root:
-
-   ```bash
-   npx hardhat node
-   ```
-
-2. Deploy the contract:
-
-   ```bash
-   npx hardhat ignition deploy ./ignition/modules/BlockBidMarketplace.ts --network localhost
-   ```
-
-3. Copy `.env.example` to `.env` and replace `VITE_BLOCKBID_ADDRESS` with the deployed contract address.
-
-4. Copy the latest Hardhat artifact to:
-
-   ```text
-   frontend/src/contracts/BlockBidMarketplace.json
-   ```
-
-5. Install and run:
-
-   ```bash
-   npm install
-   npm run typecheck
-   npm run dev
-   ```
-
-6. Add the Hardhat network to MetaMask:
-
-   ```text
-   RPC URL: http://127.0.0.1:8545
-   Chain ID: 31337
-   Currency: ETH
-   ```
-
-## Included UI
-
-- Dark universe / galaxy visual system
-- Responsive glass navigation and wallet controls
-- Marketplace hero, contract statistics, search, filters, and sorting
-- Premium auction cards with images, status badges, live countdowns, and bid data
-- Compact four-step Create Auction wizard
-- Drag-and-drop image upload with validation and preview
-- Pricing, scheduling shortcuts, inline validation, and final review
-- MetaMask transaction-status modal
-- Local image and metadata storage through IndexedDB
-- Auction details with bidding, seller actions, escrow information, and bid history
-- Wallet dashboard with listings, bids, wins, refunds, and seller-claim indicators
-- Loading skeletons, empty states, success messages, and error handling
-
-## Local metadata
-
-The Create Auction wizard does not expose an image URL or metadata URI. It stores the uploaded image and generated JSON in the browser's IndexedDB and sends only a compact URI to the contract:
-
-```text
-blockbid-local://auction/<unique-id>
+```powershell
+npm --prefix frontend run typecheck
+npm --prefix frontend run test:foundation
+npm --prefix frontend run build
+npm --prefix frontend run preview -- --host 127.0.0.1 --port 5173 --strictPort
 ```
 
-This is ideal for the local classroom prototype. The image is available only in the same browser profile where it was uploaded. Do not clear that browser's site data before presenting.
+Open `http://127.0.0.1:5173`. The marketplace, auction detail, dashboard, statistics, and admin routes explain that live data requires a verified local deployment. Choose **Preview a listing** to try the item, pricing and scheduling form. The draft lives in the current tab. A reload or leaving the route clears it.
 
-A public deployment can replace the IndexedDB service with IPFS without changing the Solidity contract.
+## Item images and local storage
 
-## Notes
+The listing form accepts still PNG, JPEG and WebP up to 5 MiB, with a maximum of 4,096 pixels per side and 8,388,608 pixels total. The form checks the header and browser decode before displaying an image.
 
-- The Solidity contracts are not modified by this frontend package.
-- The contract enforces a minimum auction duration of one hour and a minimum bid increment of 0.001 ETH.
-- A restarted Hardhat node erases local chain state. Redeploy and update the contract address after a restart.
+Once the verified deployment and publishing flow are available, local metadata commits to IndexedDB before submission. The image and item text live on the same browser origin. A different browser or device may only have the auction ID and on-chain fields. Clearing site data can remove local metadata.
+
+## Local chain
+
+The G4 endpoint is `http://127.0.0.1:31337` with chain ID `31337`. The current pinned Hardhat client alias points to port `8545`. Live chain access and wallet requests require a reviewed endpoint and verified deployment identity. The current production build serves the frontend preview only.

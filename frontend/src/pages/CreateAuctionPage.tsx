@@ -1,6 +1,7 @@
 import {
   useEffect,
   useMemo,
+  useRef,
   useState,
   type ChangeEvent,
   type DragEvent,
@@ -15,12 +16,13 @@ import {
   type TransactionStage,
 } from "../components/TransactionStatusModal";
 import { WalletButton } from "../components/WalletButton";
+import { hasVerifiedDeployment } from "../contracts/contractConfig";
 import { useBlockBid } from "../hooks/useBlockBid";
 import { useWallet } from "../hooks/useWallet";
 import { readContractError } from "../services/blockBidService";
 import {
-  deleteLocalAuctionMetadata,
   saveLocalAuctionMetadata,
+  validateAuctionImage,
 } from "../services/localMetadataService";
 import {
   AUCTION_CATEGORY_LABELS,
@@ -33,8 +35,7 @@ import {
   unixFromDateTimeLocal,
 } from "../utils/format";
 
-const MAX_IMAGE_BYTES = 5 * 1024 * 1024;
-const MIN_DURATION_SECONDS = 60 * 60;
+const MIN_DURATION_SECONDS = 300;
 const MAX_DURATION_SECONDS = 30 * 24 * 60 * 60;
 const MIN_INCREMENT_ETH = "0.001";
 
@@ -149,7 +150,7 @@ function validateStep(step: number, form: FormState): FormErrors {
 
       if (startTime < now) errors.startTime = "Start time cannot be in the past.";
       if (endTime <= startTime) errors.endTime = "End time must be after the start time.";
-      else if (duration < MIN_DURATION_SECONDS) errors.endTime = "Minimum duration is 1 hour.";
+      else if (duration < MIN_DURATION_SECONDS) errors.endTime = "Minimum duration is 5 minutes.";
       else if (duration > MAX_DURATION_SECONDS) errors.endTime = "Maximum duration is 30 days.";
     } catch (error) {
       const message = error instanceof Error ? error.message : "Enter a valid date and time.";
@@ -183,6 +184,9 @@ export function CreateAuctionPage() {
   const [step, setStep] = useState(0);
   const [errors, setErrors] = useState<FormErrors>({});
   const [isDragging, setIsDragging] = useState(false);
+  const [isValidatingImage, setIsValidatingImage] = useState(false);
+  const imageRequest = useRef(0);
+  const previewOnly = !hasVerifiedDeployment;
   const [transactionStage, setTransactionStage] = useState<TransactionStage>("idle");
   const [transactionHash, setTransactionHash] = useState<string | null>(null);
   const [transactionError, setTransactionError] = useState<string | null>(null);
@@ -201,6 +205,8 @@ export function CreateAuctionPage() {
     };
   }, [form.imagePreview]);
 
+  useEffect(() => () => { imageRequest.current++; }, []);
+
   const isSubmitting = !["idle", "error"].includes(transactionStage);
 
   function updateField<Key extends keyof FormState>(key: Key, value: FormState[Key]) {
@@ -208,29 +214,36 @@ export function CreateAuctionPage() {
     setErrors((current) => ({ ...current, [key]: undefined }));
   }
 
-  function handleImage(file: File | null) {
+  async function handleImage(file: File | null) {
+    if (!file) return;
+    const request = ++imageRequest.current;
+    setIsValidatingImage(true);
     setErrors((current) => ({ ...current, image: undefined }));
 
-    if (!file) return;
-    if (!['image/png', 'image/jpeg', 'image/webp'].includes(file.type)) {
-      setErrors((current) => ({ ...current, image: "Use PNG, JPG, JPEG, or WebP." }));
-      return;
+    try {
+      const validated = await validateAuctionImage(file);
+      if (request !== imageRequest.current) return;
+      const preview = URL.createObjectURL(validated);
+      setForm((current) => ({ ...current, image: file, imagePreview: preview }));
+    } catch (error) {
+      if (request !== imageRequest.current) return;
+      const message = error instanceof Error ? error.message : "The image could not be read.";
+      setErrors((current) => ({ ...current, image: message }));
+    } finally {
+      if (request === imageRequest.current) setIsValidatingImage(false);
     }
-    if (file.size > MAX_IMAGE_BYTES) {
-      setErrors((current) => ({ ...current, image: "Image must be 5 MB or smaller." }));
-      return;
-    }
-
-    const preview = URL.createObjectURL(file);
-    setForm((current) => ({ ...current, image: file, imagePreview: preview }));
   }
 
   function removeImage() {
+    imageRequest.current++;
+    setIsValidatingImage(false);
+    setErrors((current) => ({ ...current, image: undefined }));
     setForm((current) => ({ ...current, image: null, imagePreview: "" }));
   }
 
   function goToStep(nextStep: number) {
     if (nextStep > step) {
+      if (isValidatingImage) return;
       const nextErrors = validateStep(step, form);
       if (Object.keys(nextErrors).length > 0) {
         setErrors(nextErrors);
@@ -269,6 +282,7 @@ export function CreateAuctionPage() {
 
   async function handleSubmit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
+    if (previewOnly || !isConnected || !isCorrectNetwork || isValidatingImage || isSubmitting) return;
 
     const allErrors = [0, 1, 2].map((value) => validateStep(value, form));
     const firstInvalidStep = allErrors.findIndex((value) => Object.keys(value).length > 0);
@@ -279,13 +293,12 @@ export function CreateAuctionPage() {
     }
     if (!form.image) return;
 
-    let localUri: string | null = null;
     setTransactionError(null);
     setTransactionHash(null);
     setTransactionStage("preparing");
 
     try {
-      localUri = await saveLocalAuctionMetadata(
+      const localUri = await saveLocalAuctionMetadata(
         {
           name: form.title.trim(),
           title: form.title.trim(),
@@ -310,13 +323,7 @@ export function CreateAuctionPage() {
       setTransactionStage("success");
       window.setTimeout(() => navigate(`/auction/${result.auctionId.toString()}`), 1_100);
     } catch (submitError) {
-      if (localUri) {
-        try {
-          await deleteLocalAuctionMetadata(localUri);
-        } catch {
-          // The abandoned local record is harmless if cleanup is unavailable.
-        }
-      }
+      // A submission error can still leave a published reference. Retain the record.
       setTransactionError(readContractError(submitError));
       setTransactionStage("error");
     }
@@ -327,14 +334,16 @@ export function CreateAuctionPage() {
       <header className="text-center">
         <p className="eyebrow">Launch a listing</p>
         <h1 className="mt-3 bg-gradient-to-r from-white via-violet-100 to-cyan-200 bg-clip-text text-3xl font-black tracking-tight text-transparent sm:text-4xl">
-          Create a cosmic auction
+          Create an auction
         </h1>
         <p className="mx-auto mt-3 max-w-xl text-sm leading-6 text-slate-400">
-          Add the item, set the on-chain rules, and review everything before MetaMask opens.
+          {previewOnly
+            ? "Preview item details, pricing, and scheduling. This draft stays in this tab."
+            : "Add the item, set the on-chain rules, and review everything before MetaMask opens."}
         </p>
       </header>
 
-      {!isConnected ? (
+      {!previewOnly && !isConnected ? (
         <div className="surface-card-strong cosmic-border p-8 text-center">
           <div className="mx-auto grid h-14 w-14 place-items-center rounded-2xl border border-violet-400/20 bg-violet-400/10 text-violet-200">
             <WalletIcon />
@@ -345,7 +354,7 @@ export function CreateAuctionPage() {
           </p>
           <div className="mt-6 flex justify-center"><WalletButton /></div>
         </div>
-      ) : !isCorrectNetwork ? (
+      ) : !previewOnly && !isCorrectNetwork ? (
         <StatusAlert
           tone="error"
           title="Wrong network"
@@ -358,6 +367,7 @@ export function CreateAuctionPage() {
           <WizardProgress currentStep={step} onSelect={(index) => index < step && goToStep(index)} />
 
           <div className="p-5 sm:p-7">
+            {isValidatingImage ? <p role="status" className="mb-4 text-sm text-theme-muted">Checking image…</p> : null}
             <div key={step} className="step-enter">
               {step === 0 ? (
                 <ItemDetailsStep
@@ -384,7 +394,7 @@ export function CreateAuctionPage() {
                 />
               ) : null}
 
-              {step === 3 ? <ReviewStep form={form} onEdit={setStep} /> : null}
+              {step === 3 ? <ReviewStep form={form} onEdit={setStep} previewOnly={previewOnly} /> : null}
             </div>
 
             <div className="mt-7 flex items-center justify-between gap-3 border-t border-white/[0.07] pt-5">
@@ -395,9 +405,11 @@ export function CreateAuctionPage() {
               ) : <span />}
 
               {step < STEPS.length - 1 ? (
-                <button type="button" className="button-primary" onClick={() => goToStep(step + 1)}>
+                <button type="button" className="button-primary" disabled={isValidatingImage} onClick={() => goToStep(step + 1)}>
                   Continue <ArrowIcon />
                 </button>
+              ) : previewOnly ? (
+                <button type="button" className="button-secondary" disabled>Publishing unavailable</button>
               ) : (
                 <button type="submit" className="button-primary min-w-40" disabled={isSubmitting}>
                   <RocketIcon /> Create auction
@@ -514,7 +526,7 @@ function ItemDetailsStep({
         >
           <span className="grid h-12 w-12 place-items-center rounded-2xl border border-violet-300/15 bg-violet-500/10 text-violet-200 transition group-hover:scale-105"><UploadIcon /></span>
           <span className="mt-4 text-sm font-bold text-white">Drag and drop an image</span>
-          <span className="mt-1 text-xs text-slate-500">or click to browse · PNG, JPG, JPEG, WebP · max 5 MB</span>
+          <span className="mt-1 text-xs text-slate-500">or click to browse · Still PNG, JPEG, WebP · max 5 MiB</span>
           <input className="sr-only" type="file" accept="image/png,image/jpeg,image/webp" onChange={(event: ChangeEvent<HTMLInputElement>) => onImage(event.target.files?.[0] ?? null)} />
         </label>
       )}
@@ -606,26 +618,27 @@ function ScheduleStep({
         <p className="mb-2 text-xs font-bold uppercase tracking-[0.14em] text-slate-500">Duration shortcuts</p>
         <div className="flex flex-wrap gap-2">
           {[
-            ["1 hour", 1], ["6 hours", 6], ["1 day", 24], ["3 days", 72], ["7 days", 168],
-          ].map(([label, hours]) => <QuickButton key={String(label)} label={String(label)} onClick={() => onDuration(Number(hours) * 60 * 60_000)} />)}
+            ["5 minutes", 5], ["1 hour", 60], ["6 hours", 360], ["1 day", 1440],
+            ["3 days", 4320], ["7 days", 10080],
+          ].map(([label, minutes]) => <QuickButton key={String(label)} label={String(label)} onClick={() => onDuration(Number(minutes) * 60_000)} />)}
         </div>
       </div>
 
       <div className="muted-panel flex items-center justify-between gap-4 p-4">
         <div><p className="text-xs text-slate-500">Calculated duration</p><p className="mt-1 font-bold text-white">{formatDuration(durationSeconds)}</p></div>
-        <div className="text-right"><p className="text-xs text-slate-500">Contract limits</p><p className="mt-1 text-sm font-semibold text-slate-300">1 hour – 30 days</p></div>
+        <div className="text-right"><p className="text-xs text-slate-500">Contract limits</p><p className="mt-1 text-sm font-semibold text-slate-300">5 minutes – 30 days</p></div>
       </div>
     </section>
   );
 }
 
-function ReviewStep({ form, onEdit }: { form: FormState; onEdit: (step: number) => void }) {
+function ReviewStep({ form, onEdit, previewOnly }: { form: FormState; onEdit: (step: number) => void; previewOnly: boolean }) {
   const start = safeUnix(form.startTime);
   const end = safeUnix(form.endTime);
 
   return (
     <section className="space-y-5">
-      <StepHeading step="Step 4 of 4" title="Review" description="Confirm the listing before MetaMask opens." />
+      <StepHeading step="Step 4 of 4" title="Review" description={previewOnly ? "Check how the draft will appear." : "Confirm the listing before MetaMask opens."} />
       <div className="overflow-hidden rounded-2xl border border-white/10 bg-black/25">
         <img src={form.imagePreview} alt="Auction item" className="aspect-[16/8] w-full object-cover" />
         <div className="p-5">
@@ -650,7 +663,9 @@ function ReviewStep({ form, onEdit }: { form: FormState; onEdit: (step: number) 
       </ReviewSection>
 
       <div className="rounded-2xl border border-violet-400/15 bg-violet-500/[0.055] p-4 text-sm leading-6 text-violet-100/75">
-        Your image and item details will be stored locally off-chain. Only the compact metadata reference and auction rules are written to the smart contract.
+        {previewOnly
+          ? "This preview is temporary. Reloading or leaving the page clears the draft."
+          : "The image and item details are stored in this browser and origin. Other devices may show the auction ID and on-chain details without the image."}
       </div>
     </section>
   );

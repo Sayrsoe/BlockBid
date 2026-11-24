@@ -6,8 +6,10 @@ import {
   parseEther,
   type ContractTransactionReceipt,
   type ContractTransactionResponse,
+  type InterfaceAbi,
 } from "ethers";
-import { BLOCKBID_ABI, getBlockBidAddress } from "../contracts/contractConfig";
+import artifact from "../contracts/BlockBidMarketplace.json";
+import { getBlockBidAddress } from "../contracts/contractConfig";
 import { targetNetwork } from "../config/network";
 import {
   AuctionCategory,
@@ -28,6 +30,7 @@ import { mapWithConcurrency } from "../utils/mapWithConcurrency";
 
 export type TransactionLifecycle = TransactionCallbacks;
 
+const BLOCKBID_ABI = artifact.abi as InterfaceAbi;
 const contractInterface = new Interface(BLOCKBID_ABI);
 let readProvider: JsonRpcProvider | null = null;
 
@@ -102,8 +105,9 @@ export function getReadContract(): Contract {
 }
 
 export async function getWriteContract(provider: BrowserProvider): Promise<Contract> {
+  const address = getBlockBidAddress();
   const signer = await provider.getSigner();
-  return new Contract(getBlockBidAddress(), BLOCKBID_ABI, signer);
+  return new Contract(address, BLOCKBID_ABI, signer);
 }
 
 async function waitForTransaction(

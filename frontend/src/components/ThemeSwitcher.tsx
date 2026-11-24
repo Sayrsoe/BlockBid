@@ -1,4 +1,4 @@
-import { useState, useRef, useEffect } from "react";
+import { useState, useRef, useEffect, useId } from "react";
 import { useTheme, type ThemeName, type AccentName } from "../context/ThemeContext";
 const modes: {name: ThemeName; label: string; hint: string}[] = [
   {name: "system", label: "System", hint: "Follow device appearance"},
@@ -12,25 +12,46 @@ const accents: {name: AccentName; label: string}[] = [{name:"violet",label:"Viol
 export function ThemeSwitcher() {
   const {theme, accent, setTheme, setAccent} = useTheme();
   const [open, setOpen] = useState(false);
+  const menuId = useId();
   const container = useRef<HTMLDivElement>(null);
+  const trigger = useRef<HTMLButtonElement>(null);
+
+  function closeAndRestoreFocus() {
+    setOpen(false);
+    trigger.current?.focus();
+  }
+
   useEffect(() => {
     if (!open) return;
-    const onKeyDown = (event: KeyboardEvent) => { if (event.key === "Escape") setOpen(false); };
-    const onPointerDown = (event: PointerEvent) => { if (!container.current?.contains(event.target as Node)) setOpen(false); };
-    document.addEventListener("keydown", onKeyDown);
+    const onPointerDown = (event: PointerEvent) => {
+      if (!container.current?.contains(event.target as Node)) setOpen(false);
+    };
     document.addEventListener("pointerdown", onPointerDown);
-    return () => { document.removeEventListener("keydown", onKeyDown); document.removeEventListener("pointerdown", onPointerDown); };
+    return () => document.removeEventListener("pointerdown", onPointerDown);
   }, [open]);
+
   return (
-    <div className="relative" ref={container}>
-      <button type="button" className="button-secondary appearance-trigger" aria-haspopup="true" aria-expanded={open} aria-controls="blockbid-theme-menu" onClick={()=>setOpen(value=>!value)} title="Change appearance">
+    <div
+      className="relative"
+      ref={container}
+      onBlur={(event) => {
+        if (!event.currentTarget.contains(event.relatedTarget)) setOpen(false);
+      }}
+      onKeyDown={(event) => {
+        if (open && event.key === "Escape") {
+          event.stopPropagation();
+          closeAndRestoreFocus();
+        }
+      }}
+    >
+      <button ref={trigger} type="button" className="button-secondary appearance-trigger" aria-expanded={open} aria-controls={open ? menuId : undefined} onClick={()=>setOpen(value=>!value)} title="Change appearance">
         <svg aria-hidden="true" width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8"><circle cx="12" cy="12" r="9"/><path d="M12 3v18M3 12h18"/></svg>
         <span>Appearance</span>
       </button>
-      {open && <section id="blockbid-theme-menu" className="appearance-popover" role="group" aria-label="Appearance settings">
-        <div className="appearance-heading"><strong>Appearance</strong><small>One marketplace, your style</small></div>
+      {open && <section id={menuId} className="appearance-popover" role="group" aria-label="Appearance settings">
+
         <div className="appearance-options" role="group" aria-label="Theme">
-          {modes.map(mode => <button type="button" key={mode.name} aria-pressed={theme===mode.name} className="appearance-option" onClick={()=>{setTheme(mode.name);if(mode.name!=="custom") setOpen(false);}}>
+          {modes.map(mode => <button type="button" key={mode.name} aria-pressed={theme===mode.name} className="appearance-option" onClick={()=>{setTheme(mode.name);if (mode.name !== "custom") closeAndRestoreFocus();}}>
             <span className={`appearance-swatch swatch-${mode.name}`} aria-hidden="true" />
             <span className="appearance-option-label"><strong>{mode.label}</strong><small>{mode.hint}</small></span>
             {theme===mode.name && <span aria-hidden="true">✓</span>}

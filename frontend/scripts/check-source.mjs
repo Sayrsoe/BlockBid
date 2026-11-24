@@ -1,40 +1,67 @@
-// Zero-dependency missing import guard and demo isolation smoke check.
-import { existsSync, readdirSync, readFileSync, statSync } from "node:fs";
-import { dirname, extname, join, resolve } from "node:path";
+import { existsSync, lstatSync, readdirSync, readFileSync } from "node:fs";
+import { dirname, extname, join, relative, resolve, sep } from "node:path";
 import { fileURLToPath } from "node:url";
-const root = fileURLToPath(new URL("../src/", import.meta.url));
-const extensions = ["", ".ts", ".tsx", ".js", ".jsx", ".json", ".css", ".svg", ".png", ".webp", ".jpg", ".jpeg", "/index.ts", "/index.tsx"];
-const fileTypes = new Set([".ts", ".tsx", ".js", ".jsx"]);
+
+const frontend = fileURLToPath(new URL("../", import.meta.url));
+const src = join(frontend, "src");
+const distMode = process.argv.includes("--dist");
+const sourceTypes = new Set([".ts", ".tsx", ".js", ".jsx"]);
+const extensions = ["", ...sourceTypes, ".json", ".css", "/index.ts", "/index.tsx"];
+const retired = /DemoShowcasePage|DemoAuctionDetailsPage|DemoLauncher|DemoAuctionCard|blockbid:showcase:v1:|(?:^|["'/])(?:demo|showcase)(?:\/|["'])/i;
 const problems = [];
-let checked = 0;
-function filesAt(path) {
-  for (const item of readdirSync(path)) {
-    const full = join(path, item);
-    if (statSync(full).isDirectory()) filesAt(full);
-    else if (fileTypes.has(extname(item))) verify(full);
-  }
-}
-function verify(path) {
-  const content = readFileSync(path, "utf8");
-  const re = /(?:\bfrom\s*|\bimport\s*(?:\(\s*)?)["'](\.[^"']+)["']/g;
-  for (const match of content.matchAll(re)) {
-    const target = resolve(dirname(path), match[1]);
-    if (!extensions.some((ending) => existsSync(target + ending))) {
-      problems.push(path.slice(root.length) + ": missing " + match[1]);
+let imports = 0;
+
+function inspect(root, kind) {
+  function visit(path) {
+    const name = relative(root, path).split(sep).join("/");
+    const stat = lstatSync(path);
+    if (stat.isSymbolicLink()) {
+      problems.push(kind + "/" + name + " is a link");
+      return;
     }
-    checked++;
+    if (stat.isDirectory()) {
+      if (name && ((kind === "public") || (kind === "dist" && name !== "assets") || /(?:^|\/)(?:demo|showcase|fixtures|scripts|tests?)(?:\/|$)/i.test(name))) {
+        problems.push(kind + "/" + name + " is an unexpected directory");
+      }
+      for (const entry of readdirSync(path)) visit(join(path, entry));
+      return;
+    }
+    const extension = extname(name);
+    const expected = kind === "src" ? (sourceTypes.has(extension) || [".css", ".json"].includes(extension) || name === "contracts/contractConfig,ts")
+      : kind === "public" ? name === "blockbid-mark.svg"
+      : /^(?:index\.html|blockbid-mark\.svg|assets\/[\w.-]+-[\w-]+\.(?:css|js))$/.test(name);
+    if (!stat.isFile() || !expected || retired.test(name)) {
+      problems.push(kind + "/" + name + " is an unexpected file");
+      return;
+    }
+    const content = readFileSync(path, "utf8");
+    if (retired.test(content)) problems.push(name + " contains retired content");
+    if (kind !== "src" || !sourceTypes.has(extension)) return;
+    for (const [, specifier] of content.matchAll(/(?:\bfrom\s*|\bimport\s*(?:\(\s*)?)["'](\.[^"']+)["']/g)) {
+      const target = resolve(dirname(path), specifier);
+      const local = relative(src, target);
+      if (!local || local === ".." || local.startsWith(".." + sep)) problems.push(name + " imports outside production sources");
+      if (!extensions.some(suffix => existsSync(target + suffix))) problems.push(name + " cannot resolve " + specifier);
+      imports++;
+    }
   }
+  visit(root);
 }
-filesAt(root);
-for (const path of ["pages/DemoShowcasePage.tsx", "pages/DemoAuctionDetailsPage.tsx", "components/DemoAuctionCard.tsx", "demo/catalog.ts", "demo/localSimulation.ts"]) {
-  const content = readFileSync(join(root, path), "utf8");
-  if (/\b(?:eth_requestAccounts|placeBid\s*\(|getWriteContract\s*\(|window\.ethereum|blockBidService|WalletContext|useWallet|\/contracts\/)/.test(content)) {
-    problems.push(path + ": demo must not call wallet or contract services");
+
+if (distMode) {
+  const dist = join(frontend, "dist");
+  for (const name of ["index.html", "blockbid-mark.svg"]) {
+    if (!existsSync(join(dist, name))) problems.push("Missing build file " + name);
   }
+  inspect(dist, "dist");
+} else {
+  inspect(src, "src");
+  inspect(join(frontend, "public"), "public");
+  if (retired.test(readFileSync(join(frontend, "index.html"), "utf8"))) problems.push("Retired HTML entry");
 }
 if (problems.length) {
-  for (const problem of problems) console.error("ERROR: " + problem);
+  console.error(problems.join("\n"));
   process.exitCode = 1;
 } else {
-  console.log("Source guard passed: " + checked + " relative imports resolved; demo pages contain no wallet/contract calls.");
+  console.log(distMode ? "Production build inventory checked." : "Production source and public assets checked. Relative imports: " + imports);
 }

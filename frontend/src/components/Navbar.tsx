@@ -1,11 +1,11 @@
+import { hasVerifiedDeployment } from "../contracts/contractConfig";
 import { useEffect, useState } from "react";
 import { Link, NavLink, useLocation } from "react-router";
 import { WalletButton } from "./WalletButton";
 import { ThemeSwitcher } from "./ThemeSwitcher";
-import { DemoLauncher } from "./DemoLauncher";
 
 const navigation = [
-  { label: "Marketplace", to: "/", end: true },
+  { label: "Marketplace", to: "/marketplace", end: true },
 
   { label: "Create", to: "/create", end: false },
   { label: "Dashboard", to: "/dashboard", end: false },
@@ -31,7 +31,7 @@ export function Navbar() {
   }, [location.pathname]);
 
   return (
-    <header className="sticky top-0 z-40 border-b border-white/[0.07] bg-cosmos-950/72 backdrop-blur-2xl">
+    <header className="blockbid-header sticky top-0 z-40 border-b">
       <div className="app-container flex h-[4.5rem] items-center justify-between gap-4">
         <Link to="/" className="focus-ring group inline-flex items-center gap-3 rounded-xl">
           <span className="relative grid h-10 w-10 place-items-center overflow-hidden rounded-xl border border-violet-300/20 bg-gradient-to-br from-violet-600 via-indigo-600 to-cyan-500 shadow-glow">
@@ -41,35 +41,35 @@ export function Navbar() {
           <div className="leading-none">
             <span className="block text-base font-black tracking-tight text-white">BlockBid</span>
             <span className="mt-1 block text-[9px] font-bold uppercase tracking-[0.24em] text-violet-300">
-              Demo marketplace
+              Local marketplace
             </span>
           </div>
         </Link>
 
-        <nav className="hidden items-center gap-1 rounded-2xl border border-white/[0.06] bg-white/[0.025] p-1 md:flex" aria-label="Primary navigation">
+        <nav className="hidden items-center gap-1 rounded-2xl border border-white/[0.06] bg-white/[0.025] p-1 lg:flex" aria-label="Primary navigation">
           {navigation.map((item) => (
             <NavLink
               key={item.to}
               to={item.to}
               end={item.end}
-              className={({ isActive }) => navClassName(isActive)}
+              className={({ isActive }) => navClassName(isActive || (item.to === "/marketplace" && location.pathname === "/"))}
             >
               {item.label}
             </NavLink>
           ))}
         </nav>
 
-        <div className="hidden items-center gap-2 md:flex">
-          <DemoLauncher />
+        <div className="hidden items-center gap-2 lg:flex">
           <ThemeSwitcher />
-          <WalletButton />
+          {hasVerifiedDeployment && <WalletButton />}
         </div>
 
         <button
           type="button"
-          className="focus-ring grid h-10 w-10 place-items-center rounded-xl border border-white/10 bg-white/[0.04] text-slate-200 md:hidden"
+          className="focus-ring grid h-10 w-10 place-items-center rounded-xl border border-white/10 bg-white/[0.04] text-slate-200 lg:hidden"
           aria-label="Toggle navigation"
           aria-expanded={mobileOpen}
+          aria-controls="blockbid-mobile-navigation"
           onClick={() => setMobileOpen((open) => !open)}
         >
           {mobileOpen ? <CloseIcon /> : <MenuIcon />}
@@ -77,22 +77,21 @@ export function Navbar() {
       </div>
 
       {mobileOpen ? (
-        <div className="border-t border-white/[0.07] bg-cosmos-950/95 px-4 py-4 backdrop-blur-2xl md:hidden">
-          <nav className="mx-auto flex max-w-7xl flex-col gap-1" aria-label="Mobile navigation">
+        <div className="border-t border-white/[0.07] px-4 py-4 lg:hidden">
+          <nav id="blockbid-mobile-navigation" className="mx-auto flex max-w-7xl flex-col gap-1" aria-label="Mobile navigation">
             {navigation.map((item) => (
               <NavLink
                 key={item.to}
                 to={item.to}
                 end={item.end}
-                className={({ isActive }) => navClassName(isActive)}
+                className={({ isActive }) => navClassName(isActive || (item.to === "/marketplace" && location.pathname === "/"))}
               >
                 {item.label}
               </NavLink>
             ))}
             <div className="mt-3 flex flex-wrap items-center gap-3 border-t border-white/[0.07] pt-4">
-              <DemoLauncher />
               <ThemeSwitcher />
-              <WalletButton />
+              {hasVerifiedDeployment && <WalletButton />}
             </div>
           </nav>
         </div>

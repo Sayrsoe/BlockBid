@@ -1,7 +1,7 @@
 import test from "node:test";
 import assert from "node:assert/strict";
 import { mapWithConcurrency } from "../src/utils/mapWithConcurrency.ts";
-import { DEMO_AUCTIONS, DEMO_CATEGORIES } from "../src/demo/catalog.ts";
+import { records, categories } from "./fixtures/catalog.ts";
 const pause = () => new Promise((resolve) => setImmediate(resolve));
 test("bounded parallelism preserves output order", async () => {
   let inFlight = 0;
@@ -34,12 +34,12 @@ test("task failure propagates and prevents scheduling remaining work", async () 
   }), /rpc failure/);
   assert.ok(called < 6);
 });
-test("24 catalog examples retain unique IDs and categorization", () => {
-  assert.equal(DEMO_AUCTIONS.length, 24);
-  assert.equal(new Set(DEMO_AUCTIONS.map(a => a.id)).size, 24);
-  assert.equal(DEMO_CATEGORIES.length, 8);
-  for (const a of DEMO_AUCTIONS) {
-    assert.ok(DEMO_CATEGORIES.includes(a.category));
+test("synthetic records have unique IDs, eight categories and positive values", () => {
+  assert.equal(records.length, 24);
+  assert.equal(new Set(records.map(a => a.id)).size, 24);
+  assert.equal(categories.length, 8);
+  for (const a of records) {
+    assert.ok(categories.includes(a.category));
     assert.ok(a.price > 0 && Number.isFinite(a.price));
   }
 });
